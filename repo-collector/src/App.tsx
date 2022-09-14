@@ -1,25 +1,16 @@
-import React from 'react';
-import logo from './logo.svg';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
 import './App.css';
+import { RepositoryTile } from './components/RepositoryTile/RepositoryTile';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Box sx={{p: 3}}>
+      <Typography component='h1' variant='h4' sx={{mb: 3, fontWeight: 700}}>
+        Repo Collector
+      </Typography>
+      <RepositoryTile />
+    </Box>
   );
 }
 
