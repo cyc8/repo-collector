@@ -9,7 +9,7 @@ __pycache
 .env.staging
 .env.staging.db
 .DS_Store
-chrome-example getting-started
+examples
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
