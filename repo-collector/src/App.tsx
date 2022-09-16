@@ -6,7 +6,7 @@ import { RepositoryTile } from './components/RepositoryTile/RepositoryTile';
 function App() {
   return (
     <Box sx={{p: 3}}>
-      <Typography component='h1' variant='h4' sx={{mb: 3, fontWeight: 700}}>
+      <Typography component='h1' variant='h4' sx={{mb: 3, fontWeight: 700, fontSize: '1.75rem', textAlign: 'center'}}>
         Repo Collector
       </Typography>
       <RepositoryTile />
