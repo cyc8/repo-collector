@@ -3,6 +3,7 @@ import Box from '@mui/material/Box';
 import { MetricBox } from '../MetricBox/MetricBox';
 import { ActiveInfo } from '../ActiveInfo/ActiveInfo';
 import Button from '@mui/material/Button';
+import Paper from '@mui/material/Paper';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import repo from '../../assets/repo.svg';
 import githubLogo from '../../assets/github-logo-128x128.png';
@@ -10,9 +11,10 @@ import bitbucketLogo from '../../assets/bitbucket-logo-128x128.png';
 import gitlabLogo from '../../assets/gitlab-logo-128x128.png';
 
 
+
 export const RepositoryTile = () => {
   return (
-    <Box
+    <Paper
       sx={{
         borderRadius: 2,
         backgroundColor: '#D8D8D8',
@@ -46,13 +48,10 @@ export const RepositoryTile = () => {
           <MetricBox count={3.4} type='watch'/>
         </Box>
         <ActiveInfo />
-      </Box>
-      
-      <Box sx={{ml: 1}}>
         <Button href='https://github.com/GoogleChrome/chrome-extensions-samples' target='_blank' size='small' variant='contained' endIcon={<OpenInNewIcon />}>
           View Repo         
         </Button>
       </Box>
-    </Box>
+    </Paper>
   );
 };
