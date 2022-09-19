@@ -8,7 +8,7 @@ import { RepositoryTile } from './components/RepositoryTile/RepositoryTile';
 function App() {
   const [repos, setRepos] = useState<string[]>([]);
   
-  useEffect(()=> {   
+  useEffect(() => {   
     chrome.tabs && chrome.tabs.query({ active: true, currentWindow: true }, ([tab]) => {
       chrome.tabs.sendMessage(
         // Current tab ID
@@ -19,20 +19,20 @@ function App() {
   
         // Callback executed when the content script sends a response
         (response: DOMMessageResponse) => {
-          setRepos(response.repos);
+          setRepos(response);
       });
     });
 
     console.log(repos)
-  },)
+  },[])
 
   return (
     <Box sx={{p: 3}}>
       <Typography component='h1' variant='h4' sx={{mb: 3, fontWeight: 700, fontSize: '1.75rem', textAlign: 'center'}}>
         Repo Collector
       </Typography>
-      <RepositoryTile />
-      {repos && 
+      <RepositoryTile repos={repos}/>
+      {repos &&
       <Typography> {repos} </Typography>}
     </Box>
   );

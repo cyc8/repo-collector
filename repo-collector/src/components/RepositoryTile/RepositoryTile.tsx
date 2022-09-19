@@ -9,10 +9,13 @@ import repo from '../../assets/repo.svg';
 import githubLogo from '../../assets/github-logo-128x128.png';
 import bitbucketLogo from '../../assets/bitbucket-logo-128x128.png';
 import gitlabLogo from '../../assets/gitlab-logo-128x128.png';
+import { DOMMessageResponse } from '../../types';
 
+interface RepositoryTileProps {
+  repos: DOMMessageResponse
+}
 
-
-export const RepositoryTile = () => {
+export const RepositoryTile = ({repos}: RepositoryTileProps ) => {
   return (
     <Paper
       sx={{

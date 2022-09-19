@@ -22,9 +22,7 @@ const messagesFromReactAppListener = (msg: DOMMessage, sender: chrome.runtime.Me
     repos.forEach(repo => {console.log(repo)})
     
     // Prepare the response object with information about the site
-    const response: DOMMessageResponse = {
-        repos: repos,
-    };
+    const response: DOMMessageResponse = repos ;
   
     sendResponse(response);
 }
