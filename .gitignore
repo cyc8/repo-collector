@@ -10,6 +10,7 @@ __pycache
 .env.staging.db
 .DS_Store
 examples
+repo-collector.ai
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
