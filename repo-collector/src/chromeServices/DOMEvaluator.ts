@@ -7,7 +7,7 @@ const messagesFromReactAppListener = (msg: DOMMessage, sender: chrome.runtime.Me
     // regex modules
     const githubDomain = '^https:\/\/github\.com\/';
     const githubUser = '[^\/]{1,38}\/';
-    const githubRepoName = '[\w\.@\:\/\-~]+'
+    const githubRepoName = '[\w\.@\:\/\-~]+$'
 
     const testRegex = (href: string) => {
       const gitHubregex = new RegExp( githubDomain + githubUser + githubRepoName);
