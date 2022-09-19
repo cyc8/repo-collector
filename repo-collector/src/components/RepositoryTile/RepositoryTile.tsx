@@ -30,7 +30,7 @@ export const RepositoryTile = ({repos}: RepositoryTileProps ) => {
         alignItems: 'center',
         pr: 1,
         mr: 1,
-        borderRight: '2px solid #999'
+        borderRight: '1px solid #b1b1b1'
       }}>
         <img src={githubLogo} height='50px' width='50px' alt='github logo'/>
       </Box>

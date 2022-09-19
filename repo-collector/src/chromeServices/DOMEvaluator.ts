@@ -4,14 +4,21 @@ import { DOMMessage, DOMMessageResponse } from "../types";
 const messagesFromReactAppListener = (msg: DOMMessage, sender: chrome.runtime.MessageSender, sendResponse: (response: DOMMessageResponse) => void) => {
     console.log('[content.js]. Message received', msg);
 
-    // regex modules
-    const githubDomain = '^https:\/\/github\.com\/';
-    const githubUser = '[^\/]{1,38}\/';
-    const githubRepoName = '[\w\.@\:\/\-~]+$'
-
+    
     const testRegex = (href: string) => {
-      const gitHubregex = new RegExp( githubDomain + githubUser + githubRepoName);
-      return gitHubregex.test(href)
+      
+      // github regex segments:
+      // ------------------------------------------
+      // githubDomain '^https:\/\/github\.com\/'
+      // githubUser '[^\/]{1,38}\/'
+      // githubRepoName '[\w\.@\:\/\-~]+$'
+
+      // regex modules
+      const github = /^https:\/\/github\.com\/[^/]{1,38}\/[\w.@:/\-~]+$/;
+      const bitbucket = /^https:\/\/bitbucket\.org\//;
+      const gitlab = /^https:\/\/gitlab\.com\//;
+
+      return github.test(href)
     };
 
     const nodeArray = Array.from(document.querySelectorAll('a'));
@@ -19,6 +26,7 @@ const messagesFromReactAppListener = (msg: DOMMessage, sender: chrome.runtime.Me
     const hrefArray = nodeArray.map(node => node.href);
     // filter out only repository hrefs
     const repos = hrefArray.filter((href) => { return testRegex(href) });
+
     repos.forEach(repo => {console.log(repo)})
     
     // Prepare the response object with information about the site
