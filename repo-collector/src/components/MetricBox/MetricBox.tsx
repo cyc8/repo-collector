@@ -8,7 +8,7 @@ import fork from '../../assets/repo-forked-24.svg';
 
 interface MetricBoxProps {
   count: number,
-  type: 'stars' | 'forks' | 'watch',
+  type: 'stars' | 'forks' | 'watchers',
 }
 
 export const MetricBox = ({count, type}: MetricBoxProps) => {
@@ -24,7 +24,7 @@ export const MetricBox = ({count, type}: MetricBoxProps) => {
         <Box sx={{margin: '2px', display: 'flex', opacity: 0.8, alignItems: 'center'}}>
           {type === 'stars' && <StarIcon fontSize='small'/>}
           {type === 'forks' && <img src={fork} alt='repository fork icon' height='16px' width='16px' />}
-          {type === 'watch' && <VisibilityIcon fontSize='small'/>}
+          {type === 'watchers' && <VisibilityIcon fontSize='small'/>}
           <Typography component='p' sx={{pl: 1, fontWeight: 500, fontSize: '0.9rem'}}> {count} </Typography>
         </Box>
       </Tooltip>
