@@ -1,6 +1,5 @@
-import { useState } from 'react';
 import axios from 'axios';
-import { useQuery, useQueries } from "@tanstack/react-query";
+import { useQueries } from "@tanstack/react-query";
 import RepositoryTile from '../RepositoryTile/RepositoryTile';
 import { DOMMessageResponse } from '../../types';
 import Typography from '@mui/material/Typography';
@@ -10,21 +9,16 @@ interface RepositoriesProps {
 }
 
 export default function Repositories ({repoUrls}: RepositoriesProps) {
-  const { isLoading, error, data, isFetching } = useQuery(["repoData"], () =>
-    axios
-      .get("https://api.github.com/repos/tannerlinsley/react-query")
-      .then((res) => res.data)
-  );
 
   const githubUrls = [
     'https://github.com/charlax/professional-programming',
-    'https://github.com/30-seconds/30-seconds-of-code',
-    'https://github.com/practical-tutorials/project-based-learning',
-    'https://github.com/donnemartin/system-design-primer',
-    'https://github.com/jwasham/coding-interview-university',
-    'https://github.com/mtdvio/every-programmer-should-know',
-    'https://github.com/kamranahmedse/developer-roadmap',
-    'https://github.com/codecrafters-io/build-your-own-x'
+    // 'https://github.com/30-seconds/30-seconds-of-code',
+    // 'https://github.com/practical-tutorials/project-based-learning',
+    // 'https://github.com/donnemartin/system-design-primer',
+    // 'https://github.com/jwasham/coding-interview-university',
+    // 'https://github.com/mtdvio/every-programmer-should-know',
+    // 'https://github.com/kamranahmedse/developer-roadmap',
+    // 'https://github.com/codecrafters-io/build-your-own-x'
   ]
   
   const createApiEndpoint = (url: string) => {
@@ -51,22 +45,31 @@ export default function Repositories ({repoUrls}: RepositoriesProps) {
     })
   })
 
-  // watchers - subscribers_count
-  // forks
-  if(isLoading){
-    return <Typography>Is loading...</Typography> ;
+  if( reposData.some((repoData) => { return repoData.isLoading }) ){
+    return (
+      <Typography>
+        Is loading...
+      </Typography>) ;
   }
 
-  if(error){
-    console.log(error);
-    return <Typography>Sorry, an error occured</Typography>;
-  }
-
-  console.log(data);
   return (
     <>
-       {/* {data.map((repo:any) => { return <RepositoryTile repoData={repo} />}) } */}
-       {console.log(reposData)}
+      {reposData.map((repoData, index) => {
+        const {data} = repoData;
+        console.log(data);
+        return (<RepositoryTile
+          key={index}
+          error={repoData.error instanceof Error? repoData.error : null}
+          forks={data.forks}
+          watchers={data.subscribers_count}
+          stars={data.stargazers_count}
+          lastCommit={data.pushed_at}
+          published={data.created_at}
+          url={data.html_url}
+          name={data.name}
+          owner={data.owner.login}
+        />)
+      }) }
     </>
-  );
+  )
 }

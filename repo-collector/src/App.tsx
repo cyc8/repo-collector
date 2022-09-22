@@ -3,39 +3,48 @@ import { DOMMessage, DOMMessageResponse } from "./types";
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import './App.css';
-import { RepositoryTile } from './components/RepositoryTile/RepositoryTile';
+import Repositories from  './components/Repositories/Repositories';
 
-function App() {
-  const [repos, setRepos] = useState<string[]>([]);
-  
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+
+const queryClient = new QueryClient();
+
+export default function App() {
+  const [repoUrls, setRepoUrls] = useState<string[]>([]);
+
   useEffect(() => {   
     chrome.tabs && chrome.tabs.query({ active: true, currentWindow: true }, ([tab]) => {
       chrome.tabs.sendMessage(
         // Current tab ID
         tab.id || 0,
-  
+
         // Message type
         { type: 'GET_DOM' } as DOMMessage,
-  
+
         // Callback executed when the content script sends a response
         (response: DOMMessageResponse) => {
-          setRepos(response);
+          setRepoUrls(response);
       });
     });
 
-    console.log(repos)
+    console.log(repoUrls)
   },[])
+  
+  if(!repoUrls){
+    return <Typography>Is Loading...</Typography>
+  }
 
   return (
-    <Box sx={{p: 3}}>
-      <Typography component='h1' variant='h4' sx={{mb: 3, fontWeight: 700, fontSize: '1.75rem', textAlign: 'center'}}>
-        Repo Collector
-      </Typography>
-      <RepositoryTile repos={repos}/>
-      {repos &&
-      <Typography> {repos} </Typography>}
-    </Box>
+      <Box sx={{p: 3, display: 'inline-flex', flexDirection: 'column'}}>
+        <Typography component='h1' variant='h4' sx={{mb: 3, fontWeight: 700, fontSize: '1.75rem', textAlign: 'center'}}>
+          Repo Collector
+        </Typography>
+        <QueryClientProvider client={queryClient}>
+          <Repositories repoUrls={repoUrls}/>
+        <ReactQueryDevtools initialIsOpen={false} />
+        </QueryClientProvider>
+        {repoUrls && <Typography> {repoUrls} </Typography>}
+      </Box>
   );
 }
-
-export default App;
