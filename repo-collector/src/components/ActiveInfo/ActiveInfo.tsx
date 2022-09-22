@@ -13,7 +13,7 @@ export const ActiveInfo = ({lastCommit, published}: ActiveInfoProps) => {
   const checkToday = (date: string) => {
     const today = new Date().toISOString().slice(0,10);
     if(date === today){
-      return 'today';
+      return 'today 🔥';
     } else {
       return date;
     }

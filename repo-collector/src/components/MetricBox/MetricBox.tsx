@@ -12,6 +12,21 @@ interface MetricBoxProps {
 }
 
 export const MetricBox = ({count, type}: MetricBoxProps) => {
+  // to bring code from e.g. 102387 to 10.2k format  
+  const formatCount =  (count: number) => {
+    let result
+    if(count > 1000){
+      result = Math.floor(count / 1000) + '.';
+      const remainder = Math.round((count % 1000)/100);
+      return result + remainder + 'k';
+    } else {
+      return count;
+    }
+  }
+  
+  const formattedCount = formatCount(count);
+
+
   return(
     <Box sx={{
       backgroundColor: 'rgba(255, 255, 255, 0.4)',
@@ -25,7 +40,7 @@ export const MetricBox = ({count, type}: MetricBoxProps) => {
           {type === 'stars' && <StarIcon fontSize='small'/>}
           {type === 'forks' && <img src={fork} alt='repository fork icon' height='16px' width='16px' />}
           {type === 'watchers' && <VisibilityIcon fontSize='small'/>}
-          <Typography component='p' sx={{pl: 1, fontWeight: 500, fontSize: '0.9rem'}}> {count} </Typography>
+          <Typography component='p' sx={{pl: 1, fontWeight: 500, fontSize: '0.9rem'}}> {formattedCount} </Typography>
         </Box>
       </Tooltip>
     </Box>
