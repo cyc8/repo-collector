@@ -40,6 +40,9 @@ export default function App() {
         <Typography component='h1' variant='h4' sx={{mb: 3, fontWeight: 700, fontSize: '1.75rem', textAlign: 'center'}}>
           Repo Collector
         </Typography>
+        <Typography component='p' sx={{marginLeft: 1.5, color: 'rgba(255,255,255,0.5)'}}>
+          Repos on page: <b>{repoUrls.length}</b>
+        </Typography>
         <QueryClientProvider client={queryClient}>
           <Repositories repoUrls={repoUrls}/>
         <ReactQueryDevtools initialIsOpen={false} />
