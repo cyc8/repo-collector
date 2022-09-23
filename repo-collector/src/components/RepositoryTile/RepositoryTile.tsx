@@ -4,9 +4,8 @@ import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
 import Link from '@mui/material/Link';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
-import { MetricBox } from '../MetricBox/MetricBox';
-import { ActiveInfo } from '../ActiveInfo/ActiveInfo';
-import { RepoData } from '../../types';
+import { ErrorInfo } from '../ErrorInfo/ErrorInfo';
+import { RepoStatistics } from '../RepoStatistics/RepoStatistics';
 
 import repo from '../../assets/repo.svg';
 import githubLogo from '../../assets/github-logo-128x128.png';
@@ -14,17 +13,18 @@ import bitbucketLogo from '../../assets/bitbucket-logo-128x128.png';
 import gitlabLogo from '../../assets/gitlab-logo-128x128.png';
 
 interface RepositoryTileProps {
-  forks: number,
-  watchers: number,
-  stars: number,
-  lastCommit: number,
-  published: number,
-  url: string,
-  name: string,
-  owner: string,
+  error: Error | null,
+  forks?: number,
+  watchers?: number,
+  stars?: number,
+  lastCommit?: string,
+  published?: string,
+  url?: string,
+  name?: string,
+  owner?: string,
 }
 
-export default function RepositoryTile ({forks, watchers, stars, lastCommit, published, url, name, owner}: RepositoryTileProps ) {
+export default function RepositoryTile ({error, forks, watchers, stars, lastCommit, published, url, name, owner}: RepositoryTileProps ) {
   const githubDomain = 'https://github.com/';
 
   return (
@@ -33,6 +33,7 @@ export default function RepositoryTile ({forks, watchers, stars, lastCommit, pub
         borderRadius: 2,
         backgroundColor: '#D8D8D8',
         padding: 1,
+        margin: 1.5,
         display: 'flex',
       }}
     >
@@ -46,7 +47,7 @@ export default function RepositoryTile ({forks, watchers, stars, lastCommit, pub
         <img src={githubLogo} height='50px' width='50px' alt='github logo'/>
       </Box>
 
-      <Box sx={{width: 300}}>
+       <Box sx={{width: 300}}>
         <Box sx={{display: 'flex', alignItems: 'center', pb: 1}}>
           <img src={repo} height='20px' width='20px' alt='repository icon' />
           <Box sx={{pl: 1}}>
@@ -56,17 +57,20 @@ export default function RepositoryTile ({forks, watchers, stars, lastCommit, pub
           </Box>
         </Box>
 
-        <Box sx={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-        }}>
-          <MetricBox count={stars} type='stars'/>
-          <MetricBox count={forks} type='forks'/>
-          <MetricBox count={watchers} type='watchers'/>
-        </Box>
-        <ActiveInfo lastCommit={lastCommit} published={published} />
-        <Button href={url} target='_blank' size='small' variant='contained' endIcon={<OpenInNewIcon />}>
+        {// additional repo info from github api
+        stars && forks && watchers && lastCommit && published ?
+          <RepoStatistics 
+            stars={stars}
+            forks={forks}
+            watchers={watchers}
+            lastCommit={lastCommit}
+            published={published}
+          />
+        :
+          <ErrorInfo error={error}/>
+        }
+
+        <Button href='#TODO' target='_blank' size='small' variant='contained' endIcon={<OpenInNewIcon />}>
           View Repo         
         </Button>
       </Box>
