@@ -7,9 +7,9 @@
     "default_popup": "index.html",
     "default_title": "Repo Collector",
     "default_icon": {
-      "16": "logo192.png",
-      "48": "logo192.png",
-      "128": "logo192.png"
+      "16": "repo-collector-512.png",
+      "48": "repo-collector-512.png",
+      "128": "repo-collector-512.png"
     }
   },
   "content_scripts": [
@@ -19,9 +19,9 @@
     }
   ],
   "icons": {
-    "16": "logo192.png",
-    "48": "logo192.png",
-    "128": "logo192.png"
+    "16": "repo-collector-512.png",
+    "48": "repo-collector-512.png",
+    "128": "repo-collector-512.png"
   },
   "permissions": ["storage", "activeTab", "scripting"]
 }
