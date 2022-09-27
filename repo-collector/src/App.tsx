@@ -27,8 +27,6 @@ export default function App() {
           setRepoUrls(response);
       });
     });
-
-    console.log(repoUrls)
   },[])
   
   if(!repoUrls){
