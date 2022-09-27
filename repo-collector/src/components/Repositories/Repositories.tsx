@@ -25,7 +25,7 @@ export default function Repositories ({repoUrls}: RepositoriesProps) {
     // remove the "https://github.com" part
     let APIEndpoint = url.slice(18);
     APIEndpoint = 'https://api.github.com/repos' + APIEndpoint;
-    return APIEndpoint
+    return {'url': url,'APIEndpoint': APIEndpoint}
   }
   const githubApiUrls = githubUrls.map((githubUrl) => {
     return createApiEndpoint(githubUrl);
@@ -35,16 +35,22 @@ export default function Repositories ({repoUrls}: RepositoriesProps) {
   // queryFn: function the query uses to request data
   // staleTime: tells you how fresh you data is, staleTime: Infinity --> marks that the data never get stale/old
   const reposData = useQueries({
-    queries: githubApiUrls.map((repoUrl, index) => {
+    queries: githubApiUrls.map((repo, index) => {
       return {
         queryKey: ['repositoryData', index],
-        queryFn: () => axios.get(repoUrl)
-            .then((res) => res.data),
+        queryFn: () => axios.get(repo.APIEndpoint)
+            .then((res) => {
+              // add request url to response object
+              res.data.repoUrl = repo.url;
+              return res.data
+            }),
         staleTime: Infinity
       }
     })
   })
+  console.log(reposData);
 
+  // TODO Loadingscreen
   if( reposData.some((repoData) => { return repoData.isLoading }) ){
     return (
       <Typography>
@@ -55,20 +61,35 @@ export default function Repositories ({repoUrls}: RepositoriesProps) {
   return (
     <>
       {reposData.map((repoData, index) => {
-        const {data} = repoData;
+        const data: {
+          forks: number,
+          subscribers_count: number,
+          stargazers_count: number,
+          pushed_at: string,
+          created_at: string,
+          repoUrl: string,
+          name: string,
+          owner: {login:string}
+        } | null = repoData.data;
         console.log(data);
-        return (<RepositoryTile
-          key={index}
-          error={repoData.error instanceof Error? repoData.error : null}
-          forks={data.forks}
-          watchers={data.subscribers_count}
-          stars={data.stargazers_count}
-          lastCommit={data.pushed_at}
-          published={data.created_at}
-          url={data.html_url}
-          name={data.name}
-          owner={data.owner.login}
-        />)
+        return ( data ?
+          <RepositoryTile
+              key={index}
+              error={repoData.error instanceof Error? repoData.error : null}
+              url={data.repoUrl}
+              forks={data.forks}
+              watchers={data.subscribers_count}
+              stars={data.stargazers_count}
+              lastCommit={data.pushed_at}
+              published={data.created_at}
+            />
+            :
+            <RepositoryTile
+               key={index}
+               error={repoData.error instanceof Error? repoData.error : null}
+               url='url'
+             />
+          )
       }) }
     </>
   )

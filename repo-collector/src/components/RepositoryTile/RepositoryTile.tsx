@@ -14,18 +14,28 @@ import gitlabLogo from '../../assets/gitlab-logo-128x128.png';
 
 interface RepositoryTileProps {
   error: Error | null,
+  url: string,
   forks?: number,
   watchers?: number,
   stars?: number,
   lastCommit?: string,
-  published?: string,
-  url?: string,
-  name?: string,
-  owner?: string,
+  published?: string
 }
 
-export default function RepositoryTile ({error, forks, watchers, stars, lastCommit, published, url, name, owner}: RepositoryTileProps ) {
+export default function RepositoryTile ({error, forks, watchers, stars, lastCommit, published, url}: RepositoryTileProps ) {
   const githubDomain = 'https://github.com/';
+
+  const extractRepoName = (url: string) => {
+    const indexLastSlash = url.lastIndexOf('/');
+    return url.slice(indexLastSlash + 1)
+  }
+
+  const extractRepoOwner = (url: string) => {
+    // remove github domain
+    let repoOwner = url.slice(19);
+    const indexSlash = repoOwner.indexOf('/');
+    return repoOwner.slice(0, indexSlash);
+  }
 
   return (
     <Paper
@@ -51,8 +61,10 @@ export default function RepositoryTile ({error, forks, watchers, stars, lastComm
         <Box sx={{display: 'flex', alignItems: 'center', pb: 1}}>
           <img src={repo} height='20px' width='20px' alt='repository icon' />
           <Box sx={{pl: 1}}>
-            <Typography component='h2' variant='h6' sx={{fontWeight: 600}}>{name}</Typography>
-            <Typography component='span'>by <Link href={githubDomain + owner} target='_blank' underline='always' sx={{}}>{owner}</Link>
+            <Link href={url} target='_blank' rel="noreferrer" underline='hover' color="inherit">
+              <Typography component='h2' variant='h6' sx={{fontWeight: 600}}>{extractRepoName(url)}</Typography>
+            </Link>
+            <Typography component='span'>by <Link href={githubDomain + extractRepoOwner(url)} target='_blank' rel="noreferrer" underline='always' color="inherit">{extractRepoOwner(url)}</Link>
             </Typography>
           </Box>
         </Box>
@@ -70,7 +82,7 @@ export default function RepositoryTile ({error, forks, watchers, stars, lastComm
           <ErrorInfo error={error}/>
         }
 
-        <Button href='#TODO' target='_blank' size='small' variant='contained' endIcon={<OpenInNewIcon />}>
+        <Button href={url} target='_blank' rel="noreferrer" size='small' variant='contained' endIcon={<OpenInNewIcon />}>
           View Repo         
         </Button>
       </Box>
