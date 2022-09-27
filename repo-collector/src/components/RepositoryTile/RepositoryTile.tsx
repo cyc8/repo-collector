@@ -18,7 +18,7 @@ interface RepositoryTileProps {
   //   message: string,
   //   response: {responseUrl: string}
   // } | null,
-  error: null | AxiosError,
+  error: null | AxiosError<{message: string}>,
   url: string,
   forks?: number,
   watchers?: number,
@@ -30,9 +30,9 @@ interface RepositoryTileProps {
 export default function RepositoryTile ({error, forks, watchers, stars, lastCommit, published, url}: RepositoryTileProps ) {
   const githubDomain = 'https://github.com/';
   
-  // if 
+  // if error take url from error object
   const repoUrl = error ? error.request.responseURL : url;
-  console.log(error?.request?.responseURL);
+
   const extractRepoName = (url: string) => {
     const indexLastSlash = url.lastIndexOf('/');
     return url.slice(indexLastSlash + 1)
@@ -93,7 +93,7 @@ export default function RepositoryTile ({error, forks, watchers, stars, lastComm
             published={published}
           />
         :
-          <ErrorInfo error={error}/>
+          error && <ErrorInfo error={error}/>
         }
 
         <Button href={transformAPIUrlToNormal(repoUrl)} target='_blank' rel="noreferrer" size='small' variant='contained' endIcon={<OpenInNewIcon />}>
