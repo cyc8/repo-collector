@@ -23,8 +23,6 @@ const messagesFromReactAppListener = (msg: DOMMessage, sender: chrome.runtime.Me
     const hrefArray = nodeArray.map(node => node.href);
     // filter out only repository hrefs
     const repos = hrefArray.filter((href) => { return testRegex(href) });
-
-    repos.forEach(repo => {console.log(repo)})
     
     // Prepare the response object with information about the site
     const response: DOMMessageResponse = repos ;
