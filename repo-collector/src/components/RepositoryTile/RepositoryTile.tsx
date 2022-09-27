@@ -6,6 +6,7 @@ import Link from '@mui/material/Link';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import { ErrorInfo } from '../ErrorInfo/ErrorInfo';
 import { RepoStatistics } from '../RepoStatistics/RepoStatistics';
+import { AxiosError } from 'axios';
 
 import repo from '../../assets/repo.svg';
 import githubLogo from '../../assets/github-logo-128x128.png';
@@ -13,7 +14,11 @@ import bitbucketLogo from '../../assets/bitbucket-logo-128x128.png';
 import gitlabLogo from '../../assets/gitlab-logo-128x128.png';
 
 interface RepositoryTileProps {
-  error: Error | null,
+  // error: { 
+  //   message: string,
+  //   response: {responseUrl: string}
+  // } | null,
+  error: null | AxiosError,
   url: string,
   forks?: number,
   watchers?: number,
@@ -24,7 +29,10 @@ interface RepositoryTileProps {
 
 export default function RepositoryTile ({error, forks, watchers, stars, lastCommit, published, url}: RepositoryTileProps ) {
   const githubDomain = 'https://github.com/';
-
+  
+  // if 
+  const repoUrl = error ? error.request.responseURL : url;
+  console.log(error?.request?.responseURL);
   const extractRepoName = (url: string) => {
     const indexLastSlash = url.lastIndexOf('/');
     return url.slice(indexLastSlash + 1)
@@ -32,9 +40,15 @@ export default function RepositoryTile ({error, forks, watchers, stars, lastComm
 
   const extractRepoOwner = (url: string) => {
     // remove github domain
-    let repoOwner = url.slice(19);
+    let repoOwner = url.slice(29);
     const indexSlash = repoOwner.indexOf('/');
     return repoOwner.slice(0, indexSlash);
+  }
+
+  const transformAPIUrlToNormal = (repoUrl: string) => {
+    // remove domain
+    const urlPath = repoUrl.slice(29);
+    return 'https://github.com/' + urlPath
   }
 
   return (
@@ -61,10 +75,10 @@ export default function RepositoryTile ({error, forks, watchers, stars, lastComm
         <Box sx={{display: 'flex', alignItems: 'center', pb: 1}}>
           <img src={repo} height='20px' width='20px' alt='repository icon' />
           <Box sx={{pl: 1}}>
-            <Link href={url} target='_blank' rel="noreferrer" underline='hover' color="inherit">
-              <Typography component='h2' variant='h6' sx={{fontWeight: 600}}>{extractRepoName(url)}</Typography>
+            <Link href={transformAPIUrlToNormal(repoUrl)} target='_blank' rel="noreferrer" underline='hover' color="inherit">
+              <Typography component='h2' variant='h6' sx={{fontWeight: 600}}>{extractRepoName(repoUrl)}</Typography>
             </Link>
-            <Typography component='span'>by <Link href={githubDomain + extractRepoOwner(url)} target='_blank' rel="noreferrer" underline='always' color="inherit">{extractRepoOwner(url)}</Link>
+            <Typography component='span'>by <Link href={githubDomain + extractRepoOwner(repoUrl)} target='_blank' rel="noreferrer" underline='always' color="inherit">{extractRepoOwner(repoUrl)}</Link>
             </Typography>
           </Box>
         </Box>
@@ -82,7 +96,7 @@ export default function RepositoryTile ({error, forks, watchers, stars, lastComm
           <ErrorInfo error={error}/>
         }
 
-        <Button href={url} target='_blank' rel="noreferrer" size='small' variant='contained' endIcon={<OpenInNewIcon />}>
+        <Button href={transformAPIUrlToNormal(repoUrl)} target='_blank' rel="noreferrer" size='small' variant='contained' endIcon={<OpenInNewIcon />}>
           View Repo         
         </Button>
       </Box>
