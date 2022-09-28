@@ -1,7 +1,7 @@
 import axios, {AxiosError} from 'axios';
 import { useQueries } from "@tanstack/react-query";
 import RepositoryTile from '../RepositoryTile/RepositoryTile';
-import { DOMMessageResponse } from '../../types';
+import { DOMMessageResponse, GithubResponse } from '../../types';
 import Typography from '@mui/material/Typography';
 
 interface RepositoriesProps {
@@ -62,19 +62,7 @@ export default function Repositories ({repoUrls}: RepositoriesProps) {
   return (
     <>
       {reposData.map((repoData, index) => {
-        const data: {
-          // TODO add types to global types
-          forks: number,
-          subscribers_count: number,
-          stargazers_count: number,
-          pushed_at: string,
-          created_at: string,
-          repoUrl: string,
-          name: string,
-          owner: {
-            login: string,
-          }
-        } | null = repoData.data;
+        const data: GithubResponse | null = repoData.data;
 
         return ( data && !isLoading ?
           <RepositoryTile

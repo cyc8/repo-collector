@@ -1,7 +1,6 @@
 // TODO
 
 export type GithubResponse = {
-  data: {
       forks: number,
       subscribers_count: number,
       stargazers_count: number,
@@ -13,4 +12,3 @@ export type GithubResponse = {
         login: string,
       }
     } | null
-  }
