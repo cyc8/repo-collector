@@ -1,5 +1,7 @@
 import {useEffect, useState} from 'react';
 import { DOMMessage, DOMMessageResponse } from "./types";
+import { ThemeProvider } from '@mui/system';
+import theme from './theme';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import './App.css';
@@ -34,8 +36,9 @@ export default function App() {
   }
 
   return (
+    <ThemeProvider theme={theme}>
       <Box sx={{p: 3, display: 'inline-flex', flexDirection: 'column'}}>
-        <Typography component='h1' variant='h4' sx={{mb: 3, fontWeight: 700, fontSize: '1.75rem', textAlign: 'center'}}>
+        <Typography component='h1' variant='h4' sx={{mb: 3, fontWeight: 700, fontSize: '1.75rem', textAlign: 'center', color: 'primary.main'}}>
           Repo Collector
         </Typography>
         <Typography component='p' sx={{marginLeft: 1.5, color: 'rgba(255,255,255,0.5)'}}>
@@ -46,5 +49,6 @@ export default function App() {
         <ReactQueryDevtools initialIsOpen={false} />
         </QueryClientProvider>
       </Box>
+    </ThemeProvider>
   );
 }
