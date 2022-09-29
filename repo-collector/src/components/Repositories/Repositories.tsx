@@ -1,6 +1,7 @@
 import axios, {AxiosError} from 'axios';
 import { useQueries } from "@tanstack/react-query";
 import RepositoryTile from '../RepositoryTile/RepositoryTile';
+import Loading from '../Loading/Loading';
 import { DOMMessageResponse, GithubResponse } from '../../types';
 import Typography from '@mui/material/Typography';
 
@@ -48,13 +49,11 @@ export default function Repositories ({repoUrls}: RepositoriesProps) {
       }
     })
   })
+  return (<Loading />)
   
   // TODO Loadingscreen, maybe display tiles already while loading --> appears quicker
   if( reposData.some((repoData) => { return repoData.isLoading }) ){
-    return (
-      <Typography>
-        Is loading...
-      </Typography>) ;
+    return (<Loading />)
   }
 
   const isLoading = reposData.some((repoData) => { return repoData.isLoading });
