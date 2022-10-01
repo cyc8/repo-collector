@@ -29,7 +29,16 @@ export default function App() {
           setRepoUrls(response);
       });
     });
-  },[])
+  }, [])
+  console.log('render');
+
+  // set badge to number of repos found on page
+  useEffect(() => {
+    if(repoUrls){
+      chrome.action.setBadgeText({text: repoUrls.length.toString()});
+      chrome.action.setBadgeBackgroundColor({color: '#ff3737'});
+    }
+  }, [repoUrls])
   
   if(!repoUrls){
     return <Typography>Is Loading...</Typography>

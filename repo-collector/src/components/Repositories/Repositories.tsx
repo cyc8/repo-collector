@@ -49,9 +49,7 @@ export default function Repositories ({repoUrls}: RepositoriesProps) {
       }
     })
   })
-  return (<Loading />)
-  
-  // TODO Loadingscreen, maybe display tiles already while loading --> appears quicker
+
   if( reposData.some((repoData) => { return repoData.isLoading }) ){
     return (<Loading />)
   }
