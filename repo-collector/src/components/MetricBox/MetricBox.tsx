@@ -14,11 +14,17 @@ interface MetricBoxProps {
 export const MetricBox = ({count, type}: MetricBoxProps) => {
   // to bring code from e.g. 102387 to 10.2k format  
   const formatCount =  (count: number) => {
-    let result
+    let result: string;
     if(count > 1000){
-      result = Math.floor(count / 1000) + '.';
-      const remainder = Math.round((count % 1000)/100);
-      return result + remainder + 'k';
+      result = Math.round(count/100).toString();
+
+      // if count is rounded to full thousends, cut the last zero and append a k
+      // else add a dot after the thousends, number of hundreds and 
+      if(result[result.length-1] === '0'){
+        return result.slice(0, -1) + 'k'
+      } else {
+        return result.slice(0, -1) + '.' + result[result.length-1] + 'k'
+      }
     } else {
       return count;
     }
