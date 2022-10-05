@@ -8,17 +8,14 @@ import { ErrorInfo } from '../ErrorInfo/ErrorInfo';
 import { RepoStatistics } from '../RepoStatistics/RepoStatistics';
 import { AxiosError } from 'axios';
 
-import { extractRepoName, extractRepoOwner, transformAPIUrlToNormal } from '../../utils/githubUtils';
+import { extractRepoName, extractRepoOwner, githubDomain } from '../../utils/githubUtils';
 
 import repo from '../../assets/repo.svg';
 import githubLogo from '../../assets/github-logo-128x128.png';
 
 interface RepositoryTileProps {
-  // error: { 
-  //   message: string,
-  //   response: {responseUrl: string}
-  // } | null,
   error: null | AxiosError<{message: string}>,
+  isLoading: boolean,
   url: string,
   forks?: number,
   watchers?: number,
@@ -27,13 +24,7 @@ interface RepositoryTileProps {
   published?: string
 }
 
-export default function RepositoryTile ({error, forks, watchers, stars, lastCommit, published, url}: RepositoryTileProps ) {
-  const githubDomain = 'https://github.com/';
-  
-  // if error take url from error object
-  // const repoUrl = error || isLoading ? error.request.responseURL : url;
-  const repoUrl = url;
-
+export default function RepositoryTile ({error, isLoading, forks, watchers, stars, lastCommit, published, url}: RepositoryTileProps ) {
   return (
     <Paper
       sx={{
@@ -58,10 +49,10 @@ export default function RepositoryTile ({error, forks, watchers, stars, lastComm
         <Box sx={{display: 'flex', alignItems: 'center', pb: 1}}>
           <img src={repo} height='20px' width='20px' alt='repository icon' />
           <Box sx={{pl: 1}}>
-            <Link href={transformAPIUrlToNormal(repoUrl)} target='_blank' rel="noreferrer" underline='hover' color="inherit">
-              <Typography component='h2' variant='h6' sx={{fontWeight: 600}}>{extractRepoName(repoUrl)}</Typography>
+            <Link href={url} target='_blank' rel="noreferrer" underline='hover' color="inherit">
+              <Typography component='h2' variant='h6' sx={{fontWeight: 600}}>{extractRepoName(url)}</Typography>
             </Link>
-            <Typography component='span'>by <Link href={githubDomain + extractRepoOwner(repoUrl)} target='_blank' rel="noreferrer" underline='always' color="inherit">{extractRepoOwner(repoUrl)}</Link>
+            <Typography component='span'>by <Link href={githubDomain + extractRepoOwner(url)} target='_blank' rel="noreferrer" underline='always' color="inherit">{extractRepoOwner(url)}</Link>
             </Typography>
           </Box>
         </Box>
@@ -79,7 +70,7 @@ export default function RepositoryTile ({error, forks, watchers, stars, lastComm
           error && <ErrorInfo error={error}/>
         }
 
-        <Button href={transformAPIUrlToNormal(repoUrl)} target='_blank' rel="noreferrer" size='small' variant='contained' endIcon={<OpenInNewIcon />}>
+        <Button href={url} target='_blank' rel="noreferrer" size='small' variant='contained' endIcon={<OpenInNewIcon />}>
           View Repo         
         </Button>
       </Box>

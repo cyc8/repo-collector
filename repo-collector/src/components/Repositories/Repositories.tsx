@@ -43,38 +43,66 @@ export default function Repositories ({repoUrls}: RepositoriesProps) {
       }
     })
   })
-  
+  console.log('reposData');
+  console.log(reposData);
   const isLoading = reposData.some((repoData) => { return repoData.isLoading });
 
-  // return loading animation when reposData is not collected yet or some API request are still loading
-  if( !reposData || isLoading ){
-    return (<Loading />)
+  // when 
+  if(!isLoading){
+    return (
+      <>
+        {reposData.map((repoData, index) => {
+          const data: GithubResponse | null = repoData.data;
+          
+          return ( data && !isLoading ?
+            <RepositoryTile
+              key={index}
+              error={null}
+              isLoading={isLoading}
+              url={data.repoUrl}
+              forks={data.forks}
+              watchers={data.subscribers_count}
+              stars={data.stargazers_count}
+              lastCommit={data.pushed_at}
+              published={data.created_at}
+            />
+            :
+            <RepositoryTile
+              key={index}
+              error={repoData.error instanceof AxiosError<{message: string}>? repoData.error : null}
+              isLoading={isLoading}
+              url='url'
+            />
+            )
+        }) }
+      </>
+    )
   }
 
-  return (
-    <>
-      {reposData.map((repoData, index) => {
-        const data: GithubResponse | null = repoData.data;
+  // when repo urls are passed render urls first
+  if(githubUrls){
+    return(
+      <>
+        {githubUrls.map((repoUrl, index) => {
+          let error = null;
+          if(reposData){
+            const currentError = reposData[index].error;
+            error = currentError instanceof AxiosError<{message: string}> ? currentError : null;
+          }
 
-        return ( data && !isLoading ?
-          <RepositoryTile
+          return (<RepositoryTile
             key={index}
-            error={null}
-            url={data.repoUrl}
-            forks={data.forks}
-            watchers={data.subscribers_count}
-            stars={data.stargazers_count}
-            lastCommit={data.pushed_at}
-            published={data.created_at}
-          />
-          :
-          <RepositoryTile
-            key={index}
-            error={repoData.error instanceof AxiosError<{message: string}>? repoData.error : null}
-            url='url'
-          />
-          )
-      }) }
-    </>
+            error={error}
+            isLoading={isLoading}
+            url={repoUrl}
+          />)
+        })}
+      </>
+    )
+  }
+  
+  // return loading animation when no githubUrls are passed yet
+  return(
+    <Loading />
   )
 }
