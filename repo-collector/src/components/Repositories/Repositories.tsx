@@ -2,6 +2,7 @@ import axios, {AxiosError} from 'axios';
 import { useQueries } from "@tanstack/react-query";
 import RepositoryTile from '../RepositoryTile/RepositoryTile';
 import Loading from '../Loading/Loading';
+import { createApiEndpoint } from '../../utils/githubUtils';
 import { DOMMessageResponse, GithubResponse } from '../../types';
 
 interface RepositoriesProps {
@@ -21,12 +22,6 @@ export default function Repositories ({repoUrls}: RepositoriesProps) {
     'https://github.com/codecrafters-io/build-your-own-x'
   ]
   
-  const createApiEndpoint = (url: string) => {
-    // remove the "https://github.com" part
-    let APIEndpoint = url.slice(18);
-    APIEndpoint = 'https://api.github.com/repos' + APIEndpoint;
-    return APIEndpoint
-  }
   const githubApiUrls = githubUrls.map((githubUrl) => {
     return createApiEndpoint(githubUrl);
   })

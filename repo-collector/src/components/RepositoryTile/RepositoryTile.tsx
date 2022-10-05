@@ -8,10 +8,10 @@ import { ErrorInfo } from '../ErrorInfo/ErrorInfo';
 import { RepoStatistics } from '../RepoStatistics/RepoStatistics';
 import { AxiosError } from 'axios';
 
+import { extractRepoName, extractRepoOwner, transformAPIUrlToNormal } from '../../utils/githubUtils';
+
 import repo from '../../assets/repo.svg';
 import githubLogo from '../../assets/github-logo-128x128.png';
-import bitbucketLogo from '../../assets/bitbucket-logo-128x128.png';
-import gitlabLogo from '../../assets/gitlab-logo-128x128.png';
 
 interface RepositoryTileProps {
   // error: { 
@@ -31,25 +31,8 @@ export default function RepositoryTile ({error, forks, watchers, stars, lastComm
   const githubDomain = 'https://github.com/';
   
   // if error take url from error object
-  const repoUrl = error ? error.request.responseURL : url;
-
-  const extractRepoName = (url: string) => {
-    const indexLastSlash = url.lastIndexOf('/');
-    return url.slice(indexLastSlash + 1)
-  }
-
-  const extractRepoOwner = (url: string) => {
-    // remove github domain
-    let repoOwner = url.slice(29);
-    const indexSlash = repoOwner.indexOf('/');
-    return repoOwner.slice(0, indexSlash);
-  }
-
-  const transformAPIUrlToNormal = (repoUrl: string) => {
-    // remove domain
-    const urlPath = repoUrl.slice(29);
-    return 'https://github.com/' + urlPath
-  }
+  // const repoUrl = error || isLoading ? error.request.responseURL : url;
+  const repoUrl = url;
 
   return (
     <Paper
