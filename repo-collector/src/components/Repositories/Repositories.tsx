@@ -3,10 +3,9 @@ import { useQueries } from "@tanstack/react-query";
 import RepositoryTile from '../RepositoryTile/RepositoryTile';
 import Loading from '../Loading/Loading';
 import { DOMMessageResponse, GithubResponse } from '../../types';
-import Typography from '@mui/material/Typography';
 
 interface RepositoriesProps {
-  repoUrls: DOMMessageResponse
+  repoUrls?: DOMMessageResponse
 }
 
 export default function Repositories ({repoUrls}: RepositoriesProps) {
@@ -49,13 +48,14 @@ export default function Repositories ({repoUrls}: RepositoriesProps) {
       }
     })
   })
+  
+  const isLoading = reposData.some((repoData) => { return repoData.isLoading });
 
-  if( reposData.some((repoData) => { return repoData.isLoading }) ){
+  // return loading animation when reposData is not collected yet or some API request are still loading
+  if( !reposData || isLoading ){
     return (<Loading />)
   }
 
-  const isLoading = reposData.some((repoData) => { return repoData.isLoading });
-  // const repoAPIUrl = error.response.responseURL ? error.response.responseURL : 
   return (
     <>
       {reposData.map((repoData, index) => {

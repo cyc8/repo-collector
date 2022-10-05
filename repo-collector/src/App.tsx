@@ -6,6 +6,7 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import './App.css';
 import Repositories from  './components/Repositories/Repositories';
+import Loading from './components/Loading/Loading';
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
@@ -34,15 +35,15 @@ export default function App() {
 
   // set badge to number of repos found on page
   useEffect(() => {
-    if(repoUrls){
-      chrome.action.setBadgeText({text: repoUrls.length.toString()});
-      chrome.action.setBadgeBackgroundColor({color: '#ff3737'});
+    // only add badge when in production otherwise it will fail in dev
+    if (process.env.NODE_ENV === 'production') {
+      if(repoUrls){
+        chrome.action.setBadgeText({text: repoUrls.length.toString()});
+        chrome.action.setBadgeBackgroundColor({color: '#ff3737'});
+      }
     }
   }, [repoUrls])
-  
-  if(!repoUrls){
-    return <Typography>Is Loading...</Typography>
-  }
+
 
   return (
     <ThemeProvider theme={theme}>
