@@ -13,9 +13,23 @@ export const extractRepoOwner = (url: string) => {
   return repoOwner.slice(0, indexSlash);
 }
 
+export const filterRepoUrls = (href: string) => {
+      
+  // github regex segments:
+  // ------------------------------------------
+  // githubDomain '^https:\/\/github\.com\/'
+  // githubUser '[^\/]{1,38}\/'
+  // githubRepoName '[\w\.@\:\/\-~]+$'
 
-// --------------- transform urls --------------- 
+  // regex modules
+  const github = /^https:\/\/github\.com\/[^/]{1,38}\/[\w.@:/\-~]+$/;
+  const bitbucket = /^https:\/\/bitbucket\.org\//;
+  const gitlab = /^https:\/\/gitlab\.com\//;
 
+  return github.test(href)
+};
+
+// --------------- transform urls: API - Repo Endpoint --------------- 
 export const createRepoEndpoint = (apiUrl: string) => {
   // remove domain
   const urlPath = apiUrl.slice(29);

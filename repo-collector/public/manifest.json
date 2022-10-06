@@ -23,5 +23,5 @@
     "48": "repo-collector-48.png",
     "128": "repo-collector-128.png"
   },
-  "permissions": ["storage", "activeTab", "scripting"]
+  "permissions": ["storage", "activeTab", "scripting", "tabs", "background"]
 }

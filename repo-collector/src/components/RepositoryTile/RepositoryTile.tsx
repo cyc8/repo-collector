@@ -49,7 +49,7 @@ export default function RepositoryTile ({error, isLoading, forks, watchers, star
           <img src={repo} height='20px' width='20px' alt='repository icon' />
           <Box sx={{pl: 1}}>
             <Link href={url} target='_blank' rel="noreferrer" underline='hover' color="inherit">
-              <Typography component='h2' variant='h6' sx={{fontWeight: 600}}>{extractRepoName(url)}</Typography>
+              <Typography component='h2' variant='h6' sx={{fontWeight: 600}}>{extractRepoName(url)}</Typography> {/* TODO restrict length of repo name */}
             </Link>
             <Typography component='span'>by <Link href={githubDomain + extractRepoOwner(url)} target='_blank' rel="noreferrer" underline='always' color="inherit">{extractRepoOwner(url)}</Link>
             </Typography>
