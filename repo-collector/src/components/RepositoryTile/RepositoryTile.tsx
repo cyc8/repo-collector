@@ -7,11 +7,10 @@ import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import { ErrorInfo } from '../ErrorInfo/ErrorInfo';
 import { RepoStatistics } from '../RepoStatistics/RepoStatistics';
 import { AxiosError } from 'axios';
-
 import { extractRepoName, extractRepoOwner, githubDomain } from '../../utils/githubUtils';
-
 import repo from '../../assets/repo.svg';
 import githubLogo from '../../assets/github-logo-128x128.png';
+import Loading from '../Loading/Loading';
 
 interface RepositoryTileProps {
   error: null | AxiosError<{message: string}>,
@@ -55,20 +54,29 @@ export default function RepositoryTile ({error, isLoading, forks, watchers, star
             <Typography component='span'>by <Link href={githubDomain + extractRepoOwner(url)} target='_blank' rel="noreferrer" underline='always' color="inherit">{extractRepoOwner(url)}</Link>
             </Typography>
           </Box>
-        </Box>
+        </Box>    
+        
+          <Box sx={{my: 1}}>
+            {// show loading screen while repo api call
+            isLoading && 
+            <Box sx={{display: 'flex', alignItems: 'center'}}>
+              <Box sx={{mr: 1}}> <Loading size='small' /> </Box>
+              <Typography component='span' color='primary'>Requesting info...</Typography>
+            </Box>}
 
-        {// additional repo info from github api
-        stars && forks && watchers && lastCommit && published ?
-          <RepoStatistics 
-            stars={stars}
-            forks={forks}
-            watchers={watchers}
-            lastCommit={lastCommit}
-            published={published}
-          />
-        :
-          error && <ErrorInfo error={error}/>
-        }
+            {// additional repo info from github api
+              stars && forks && watchers && lastCommit && published &&
+              <RepoStatistics 
+                stars={stars}
+                forks={forks}
+                watchers={watchers}
+                lastCommit={lastCommit}
+                published={published}
+              />}
+
+            {// show error message when error
+            error && !isLoading && <ErrorInfo error={error}/>}
+        </Box>
 
         <Button href={url} target='_blank' rel="noreferrer" size='small' variant='contained' endIcon={<OpenInNewIcon />}>
           View Repo         

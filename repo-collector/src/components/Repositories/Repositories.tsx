@@ -1,4 +1,5 @@
 import axios, {AxiosError} from 'axios';
+import Box from '@mui/material/Box';
 import { useQueries } from "@tanstack/react-query";
 import RepositoryTile from '../RepositoryTile/RepositoryTile';
 import Loading from '../Loading/Loading';
@@ -59,7 +60,7 @@ export default function Repositories ({repoUrls}: RepositoriesProps) {
               key={index}
               error={null}
               isLoading={isLoading}
-              url={data.repoUrl}
+              url={githubUrls[index]}
               forks={data.forks}
               watchers={data.subscribers_count}
               stars={data.stargazers_count}
@@ -71,7 +72,7 @@ export default function Repositories ({repoUrls}: RepositoriesProps) {
               key={index}
               error={repoData.error instanceof AxiosError<{message: string}>? repoData.error : null}
               isLoading={isLoading}
-              url='url'
+              url={githubUrls[index]}
             />
             )
         }) }
@@ -103,6 +104,8 @@ export default function Repositories ({repoUrls}: RepositoriesProps) {
   
   // return loading animation when no githubUrls are passed yet
   return(
-    <Loading />
+    <Box sx={{display: 'flex', justifyContent: 'center', mt: 4}}>
+      <Loading />
+    </Box>
   )
 }
