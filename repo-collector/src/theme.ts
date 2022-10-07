@@ -13,6 +13,15 @@ const theme = createTheme({
       dark: '#0F7F6F',
     }
   },
+  components: {
+    MuiTooltip: {
+        styleOverrides: {
+          tooltip: {
+            fontSize: '0.9rem'
+          }
+        }  
+    },
+  }
 });
 
 export default theme;
