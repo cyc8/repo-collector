@@ -6,8 +6,6 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import './App.css';
 import Repositories from  './components/Repositories/Repositories';
-import Loading from './components/Loading/Loading';
-
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
@@ -32,7 +30,6 @@ export default function App() {
     });
   }, [])
   console.log('render');
-
   // set badge to number of repos found on page
   useEffect(() => {
     // only add badge when in production otherwise it will fail in dev
@@ -52,7 +49,7 @@ export default function App() {
           Repo Collector
         </Typography>
         <Typography component='p' sx={{marginLeft: 1.5, color: 'rgba(255,255,255,0.5)'}}>
-          Repos on page: <b>{repoUrls.length}</b>
+          { repoUrls && <> Repos on page: <b>{repoUrls.length}</b> </> }
         </Typography>
         <QueryClientProvider client={queryClient}>
           <Repositories repoUrls={repoUrls}/>
