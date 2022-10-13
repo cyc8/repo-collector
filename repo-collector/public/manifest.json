@@ -12,16 +12,20 @@
       "128": "repo-collector-128.png"
     }
   },
+  "icons": {
+    "16": "repo-collector-16.png",
+    "48": "repo-collector-48.png",
+    "128": "repo-collector-128.png"
+  },
   "content_scripts": [
     {
       "matches": ["http://*/*", "https://*/*"],
       "js": ["./static/js/content.js"]
     }
   ],
-  "icons": {
-    "16": "repo-collector-16.png",
-    "48": "repo-collector-48.png",
-    "128": "repo-collector-128.png"
+  "background": {
+    "service_worker": "./static/js/content.js"
   },
-  "permissions": ["storage", "activeTab", "scripting", "tabs", "background"]
+  "permissions": ["storage", "activeTab", "scripting", "tabs", "background"],
+  "host_permissions": ["http://*/*", "https://*/*"]
 }

@@ -3,6 +3,8 @@
 
 - Manifest v3:
   - https://developer.chrome.com/docs/extensions/mv3/manifest/
+- Permissions:
+  - https://developer.chrome.com/docs/extensions/mv3/declare_permissions/
 
 
 # Install in Chrome
