@@ -1,5 +1,5 @@
 import { tab } from '@testing-library/user-event/dist/tab';
-import { DOMMessage, DOMMessageResponse } from '../types';
+import { DOMMessage, ReposMessageResponse } from '../types';
 import { filterRepoUrls } from '../utils/githubUtils';
 
 // TODO check manifest permissions
@@ -7,13 +7,13 @@ import { filterRepoUrls } from '../utils/githubUtils';
 const messagesFromReactAppListener = (
   msg: DOMMessage,
   sender: chrome.runtime.MessageSender,
-  sendResponse: (response: DOMMessageResponse) => void
+  sendResponse: (response: ReposMessageResponse) => void
 ) => {
   const nodeArray = Array.from(document.querySelectorAll('a'));
   // create new array containing only hrefs
   const hrefArray = nodeArray.map((node) => node.href);
   // filter out only repository hrefs
-  const repoUrls: DOMMessageResponse = hrefArray.filter((href) => {
+  const repoUrls: ReposMessageResponse = hrefArray.filter((href) => {
     return filterRepoUrls(href);
   });
 

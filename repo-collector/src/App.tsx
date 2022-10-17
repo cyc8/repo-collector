@@ -1,5 +1,5 @@
 import {useEffect, useState} from 'react';
-import { DOMMessage, DOMMessageResponse } from "./types";
+import { DOMMessage, ReposMessageResponse } from "./types";
 import { ThemeProvider } from '@mui/system';
 import theme from './theme';
 import Typography from '@mui/material/Typography';
@@ -24,7 +24,7 @@ export default function App() {
         { type: 'GET_DOM' } as DOMMessage,
 
         // Callback executed when the content script sends a response
-        (response: DOMMessageResponse) => {
+        (response: ReposMessageResponse) => {
           setRepoUrls(response);
       });
     });

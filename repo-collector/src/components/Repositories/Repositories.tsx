@@ -4,10 +4,10 @@ import { useQueries } from "@tanstack/react-query";
 import RepositoryTile from '../RepositoryTile/RepositoryTile';
 import Loading from '../Loading/Loading';
 import { createApiEndpoint } from '../../utils/githubUtils';
-import { DOMMessageResponse, GithubResponse } from '../../types';
+import { ReposMessageResponse, GithubResponse } from '../../types';
 
 interface RepositoriesProps {
-  repoUrls?: DOMMessageResponse
+  repoUrls?: ReposMessageResponse
 }
 
 export default function Repositories ({repoUrls}: RepositoriesProps) {
