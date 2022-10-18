@@ -27,6 +27,6 @@
   "background": {
     "service_worker": "./static/js/serviceWorker.js"
   },
-  "permissions": ["storage", "activeTab", "scripting", "tabs", "background"],
+  "permissions": ["activeTab", "tabs", "background"],
   "host_permissions": ["http://*/*", "https://*/*"]
 }
