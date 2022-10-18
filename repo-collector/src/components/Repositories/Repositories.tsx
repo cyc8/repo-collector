@@ -7,23 +7,23 @@ import { createApiEndpoint } from '../../utils/githubUtils';
 import { ReposMessageResponse, GithubResponse } from '../../types';
 
 interface RepositoriesProps {
-  repoUrls?: ReposMessageResponse
+  repoUrls: ReposMessageResponse
 }
 
 export default function Repositories ({repoUrls}: RepositoriesProps) {
 
-  const githubUrls = [
-    'https://github.com/charlax/professional-programming',
-    'https://github.com/30-seconds/30-seconds-of-code',
-    'https://github.com/practical-tutorials/project-based-learning',
-    'https://github.com/donnemartin/system-design-primer',
-    'https://github.com/jwasham/coding-interview-university',
-    'https://github.com/mtdvio/every-programmer-should-know',
-    'https://github.com/kamranahmedse/developer-roadmap',
-    'https://github.com/codecrafters-io/build-your-own-x'
-  ]
+  // const githubUrls = [
+  //   'https://github.com/charlax/professional-programming',
+  //   'https://github.com/30-seconds/30-seconds-of-code',
+  //   'https://github.com/practical-tutorials/project-based-learning',
+  //   'https://github.com/donnemartin/system-design-primer',
+  //   'https://github.com/jwasham/coding-interview-university',
+  //   'https://github.com/mtdvio/every-programmer-should-know',
+  //   'https://github.com/kamranahmedse/developer-roadmap',
+  //   'https://github.com/codecrafters-io/build-your-own-x'
+  // ]
   
-  const githubApiUrls = githubUrls.map((githubUrl) => {
+  const githubApiUrls = repoUrls.map((githubUrl) => {
     return createApiEndpoint(githubUrl);
   })
 
@@ -59,7 +59,7 @@ export default function Repositories ({repoUrls}: RepositoriesProps) {
               key={index}
               error={null}
               isLoading={isLoading}
-              url={githubUrls[index]}
+              url={repoUrls[index]}
               forks={data.forks}
               watchers={data.subscribers_count}
               stars={data.stargazers_count}
@@ -71,7 +71,7 @@ export default function Repositories ({repoUrls}: RepositoriesProps) {
               key={index}
               error={repoData.error instanceof AxiosError<{message: string}>? repoData.error : null}
               isLoading={isLoading}
-              url={githubUrls[index]}
+              url={repoUrls[index]}
             />
             )
         }) }
@@ -80,10 +80,10 @@ export default function Repositories ({repoUrls}: RepositoriesProps) {
   }
 
   // when repo urls are passed render urls first
-  if(githubUrls){
+  if(repoUrls){
     return(
       <>
-        {githubUrls.map((repoUrl, index) => {
+        {repoUrls.map((repoUrl, index) => {
           let error = null;
           if(reposData){
             const currentError = reposData[index].error;

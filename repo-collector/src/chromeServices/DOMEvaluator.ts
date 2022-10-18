@@ -19,8 +19,6 @@ const messagesFromReactAppListener = (
   const repoUrls: ReposMessageResponse = hrefArray.filter((href) => {
     return filterRepoUrls(href);
   });
-  console.log('send message');
-  console.log(repoUrls.length);
   sendResponse(repoUrls);
 };
 
@@ -29,6 +27,3 @@ Register Message Listener:
 Fired when a message is sent from either an extension process or a content script.
 */
 chrome.runtime.onMessage.addListener(messagesFromReactAppListener);
-
-// permissions:------------------------------
-// scripting: to run scripts in the particular tab

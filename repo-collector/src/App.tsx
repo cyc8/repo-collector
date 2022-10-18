@@ -43,7 +43,7 @@ export default function App() {
           { repoUrls && <> Repos on page: <b>{repoUrls.length}</b> </> }
         </Typography>
         <QueryClientProvider client={queryClient}>
-          <Repositories repoUrls={repoUrls}/>
+          { repoUrls.length > 0 && <Repositories repoUrls={repoUrls}/> }
         <ReactQueryDevtools initialIsOpen={false} />
         </QueryClientProvider>
       </Box>
