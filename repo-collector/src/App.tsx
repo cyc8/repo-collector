@@ -14,7 +14,7 @@ const queryClient = new QueryClient();
 export default function App() {
   const [repoUrls, setRepoUrls] = useState<string[]>([]);
 
-  useEffect(() => {   
+  useEffect(() => {
     chrome.tabs && chrome.tabs.query({ active: true, currentWindow: true }, ([tab]) => {
       chrome.tabs.sendMessage(
         // Current tab ID
@@ -24,83 +24,11 @@ export default function App() {
         { type: 'GET_DOM' } as DOMMessage,
 
         // Callback executed when the content script sends a response
-        (response: ReposMessageResponse) => {setRepoUrls(response);});
+        (repoUrls: ReposMessageResponse) => {
+           setRepoUrls(repoUrls);
+      });
     });
-
-    // call handler if url changes
-    chrome.tabs.onUpdated.addListener(handlePageChange);
-
-    // call handler if new tab was activated
-    // chrome.tabs.onActivated.addListener(({ tabId }) => {
-    //   chrome.tabs.get(tabId, handlePageChange);
-    // });
   }, [])
-
-  const handlePageChange = async (tabId: number, changeInfo: chrome.tabs.TabChangeInfo, tab: chrome.tabs.Tab) => {
-    // prevent accessing chrome specific urls
-    if (tab.url && (tab.url.includes('chrome://') || tab.url.includes('chrome-extension://'))) {
-      return;
-    }
-
-    console.log(tab.status);
-
-
-    chrome.tabs.sendMessage(
-      // Current tab ID
-      tabId || 0,
-      // Message type
-      { type: 'GET_DOM' } as DOMMessage,
-      // Callback executed when the content script sends a response
-      (response: ReposMessageResponse) => {setRepoUrls(response);}
-    );
-
-
-      // ---------- Local Storage - How to ----------
-      // chrome.storage.local.set({processingTabId: tab.id});
-      // ----------
-      // const result = await chrome.storage.local.get(tab.id.toString())
-      //   .then((result) => {return result})
-      //   .catch((rejectReason) => {
-      //     return null;
-      //   });
-
-
-      // if (tab.id.toString() === processingTabId) {
-      //   return;
-      // }
-
-      updateBadge(removeTab, tabId);
-  }
-
-  const updateBadge = (deleteProcessingTabId: Function, tabId: number) => {
-    deleteProcessingTabId(tabId);
-    // chrome.scripting.executeScript({
-    //   target: { tabId: tabId },
-    //   func: () => {
-    //     console.log('executed scripting function');
-    //     console.log(Array.from(document.querySelectorAll('a')));
-    //     chrome.action.setBadgeText({ text: 'red' });
-    //   },
-    // });
-  }
-
-  const removeTab = () => {
-    // TODO
-    // delete tab id property at the end when all done
-    // setProcessingTabId(0);
-  }
-
-  console.log('render');
-  // set badge to number of repos found on page
-  useEffect(() => {
-    // only add badge when in production otherwise it will fail in dev
-    if (process.env.NODE_ENV === 'production') {
-      if(repoUrls){
-        chrome.action.setBadgeText({text: repoUrls.length.toString()});
-        chrome.action.setBadgeBackgroundColor({color: '#ff3737'});
-      }
-    }
-  }, [repoUrls])
 
 
   return (
