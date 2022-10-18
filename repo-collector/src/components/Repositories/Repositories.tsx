@@ -44,7 +44,6 @@ export default function Repositories ({repoUrls}: RepositoriesProps) {
       }
     })
   })
-  console.log('reposData');
   console.log(reposData);
   const isLoading = reposData.some((repoData) => { return repoData.isLoading });
 

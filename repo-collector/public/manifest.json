@@ -19,13 +19,13 @@
   },
   "content_scripts": [
     {
-      "matches": ["http://*/*", "https://*/*"],
+      "matches": ["<all_urls>"],
       "js": ["./static/js/content.js"],
       "run_at": "document_idle"
     }
   ],
   "background": {
-    "service_worker": "./static/js/content.js"
+    "service_worker": "./static/js/serviceWorker.js"
   },
   "permissions": ["storage", "activeTab", "scripting", "tabs", "background"],
   "host_permissions": ["http://*/*", "https://*/*"]
