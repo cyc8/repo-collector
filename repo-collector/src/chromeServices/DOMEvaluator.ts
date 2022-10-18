@@ -30,52 +30,5 @@ Fired when a message is sent from either an extension process or a content scrip
 */
 chrome.runtime.onMessage.addListener(messagesFromReactAppListener);
 
-// --------------------------------------------
-// --------------------------------------------
-// --------------------------------------------
-// --------------------------------------------
-// --------------------------------------------
-
-// chrome.tabs.onActivated.addListener(() => {
-//   console.log('active tab changed');
-// });
-
-// ---------------------------------------------------------------------
-// ---------------------------------------------------------------------
-// ---------------------------------------------------------------------
-// ---------------------------------------------------------------------
-// ---------------------------------------------------------------------
-// ---------------------------------------------------------------------
-
-// ---------------------------------------------------------------------
-// -------------------------------GHOSTRY GET ACTIVE TAB----------------
-// ---------------------------------------------------------------------
-
-export function getActiveTab(callback: any, error: any) {
-  chrome.tabs.query(
-    {
-      active: true,
-      currentWindow: true,
-    },
-    (tabs) => {
-      if (chrome.runtime.lastError) {
-        console.log('getActiveTab', chrome.runtime.lastError.message);
-        if (error && typeof error === 'function') {
-          error(chrome.runtime.lastError);
-        }
-      } else if (tabs.length === 0) {
-        if (error && typeof error === 'function') {
-          error({ message: 'Active tab not found' });
-        }
-      } else if (callback && typeof callback === 'function') {
-        callback(tabs[0]);
-      }
-    }
-  );
-}
-// ---------------------------------------------------------------------
-// -------------------------------GHOSTRY GET ACTIVE TAB----------------
-// ---------------------------------------------------------------------
-
 // permissions:------------------------------
 // scripting: to run scripts in the particular tab

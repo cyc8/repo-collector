@@ -27,9 +27,11 @@ export default function App() {
         (repoUrls: ReposMessageResponse) => {
            setRepoUrls(repoUrls);
       });
+      if (chrome.runtime.lastError) {
+        console.log('getActiveTab', chrome.runtime.lastError.message);
+      }
     });
   }, [])
-
 
   return (
     <ThemeProvider theme={theme}>
