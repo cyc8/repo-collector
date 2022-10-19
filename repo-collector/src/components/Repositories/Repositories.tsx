@@ -1,8 +1,6 @@
 import axios, {AxiosError} from 'axios';
-import Box from '@mui/material/Box';
 import { useQueries } from "@tanstack/react-query";
 import RepositoryTile from '../RepositoryTile/RepositoryTile';
-import Loading from '../Loading/Loading';
 import { createApiEndpoint } from '../../utils/githubUtils';
 import { ReposMessageResponse, GithubResponse } from '../../types';
 

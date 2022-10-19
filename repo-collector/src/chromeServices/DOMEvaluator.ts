@@ -16,10 +16,13 @@ const messagesFromReactAppListener = (
   // create new array containing only hrefs
   const hrefArray = nodeArray.map((node) => node.href);
   // filter out only repository hrefs
-  const repoUrls: ReposMessageResponse = hrefArray.filter((href) => {
+  const githubLinks: ReposMessageResponse = hrefArray.filter((href) => {
     return filterRepoUrls(href);
   });
-  sendResponse(repoUrls);
+
+  const uniqueRepos = githubLinks.filter((v, i, a) => a.indexOf(v) === i);
+
+  sendResponse(uniqueRepos);
 };
 
 /**
