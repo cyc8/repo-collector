@@ -6,6 +6,7 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import './App.css';
 import Repositories from  './components/Repositories/Repositories';
+import Loading from './components/Loading/Loading';
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
@@ -43,7 +44,13 @@ export default function App() {
           { repoUrls && <> Repos on page: <b>{repoUrls.length}</b> </> }
         </Typography>
         <QueryClientProvider client={queryClient}>
-          { repoUrls.length > 0 && <Repositories repoUrls={repoUrls}/> }
+          { repoUrls.length !== 0  ? 
+            <Repositories repoUrls={repoUrls}/>
+            :
+            <Box sx={{display: 'flex', justifyContent: 'center', mt: 4}}>
+              <Loading />
+            </Box>
+          }
         <ReactQueryDevtools initialIsOpen={false} />
         </QueryClientProvider>
       </Box>

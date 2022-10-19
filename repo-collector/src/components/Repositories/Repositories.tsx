@@ -47,14 +47,14 @@ export default function Repositories ({repoUrls}: RepositoriesProps) {
   console.log(reposData);
   const isLoading = reposData.some((repoData) => { return repoData.isLoading });
 
-  // when 
+  // return repos with api data after it's fetched
   if(!isLoading){
     return (
       <>
         {reposData.map((repoData, index) => {
           const data: GithubResponse | null = repoData.data;
           
-          return ( data && !isLoading ?
+          return ( data ?
             <RepositoryTile
               key={index}
               error={null}
@@ -79,32 +79,22 @@ export default function Repositories ({repoUrls}: RepositoriesProps) {
     )
   }
 
-  // when repo urls are passed render urls first
-  if(repoUrls){
-    return(
-      <>
-        {repoUrls.map((repoUrl, index) => {
-          let error = null;
-          if(reposData){
-            const currentError = reposData[index].error;
-            error = currentError instanceof AxiosError<{message: string}> ? currentError : null;
-          }
-
-          return (<RepositoryTile
-            key={index}
-            error={error}
-            isLoading={isLoading}
-            url={repoUrl}
-          />)
-        })}
-      </>
-    )
-  }
-  
-  // return loading animation when no githubUrls are passed yet
   return(
-    <Box sx={{display: 'flex', justifyContent: 'center', mt: 4}}>
-      <Loading />
-    </Box>
+    <>
+      {repoUrls.map((repoUrl, index) => {
+        let error = null;
+        if(reposData){
+          const currentError = reposData[index].error;
+          error = currentError instanceof AxiosError<{message: string}> ? currentError : null;
+        }
+
+        return (<RepositoryTile
+          key={index}
+          error={error}
+          isLoading={isLoading}
+          url={repoUrl}
+        />)
+      })}
+    </>
   )
 }
