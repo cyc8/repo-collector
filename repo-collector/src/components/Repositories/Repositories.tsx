@@ -20,7 +20,7 @@ export default function Repositories ({repoUrls}: RepositoriesProps) {
   //   'https://github.com/kamranahmedse/developer-roadmap',
   //   'https://github.com/codecrafters-io/build-your-own-x'
   // ]
-  
+  console.log(repoUrls);
   const githubApiUrls = repoUrls.map((githubUrl) => {
     return createApiEndpoint(githubUrl);
   })

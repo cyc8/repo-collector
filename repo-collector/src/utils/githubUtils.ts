@@ -1,13 +1,12 @@
-// TODO
-// - filter double links
-// -
+import { removePossibleTrailingSlash } from './generalUrils';
 
 export const githubDomain = 'https://github.com/';
 export const githubApiDomain = 'https://api.github.com/';
 
 export const extractRepoName = (url: string) => {
-  const indexLastSlash = url.lastIndexOf('/');
-  return url.slice(indexLastSlash + 1);
+  const cleanedUrl = removePossibleTrailingSlash(url);
+  const indexLastSlash = cleanedUrl.lastIndexOf('/');
+  return cleanedUrl.slice(indexLastSlash + 1);
 };
 
 export const extractRepoOwner = (url: string) => {
@@ -26,8 +25,8 @@ export const filterRepoUrls = (href: string) => {
 
   // regex modules
   const github = /^https:\/\/github\.com\/[^/]{1,38}\/[\w.@:/\-~]+$/;
-  const bitbucket = /^https:\/\/bitbucket\.org\//;
-  const gitlab = /^https:\/\/gitlab\.com\//;
+  // const bitbucket = /^https:\/\/bitbucket\.org\//;
+  // const gitlab = /^https:\/\/gitlab\.com\//;
 
   return github.test(href);
 };
@@ -42,6 +41,8 @@ export const createRepoEndpoint = (apiUrl: string) => {
 export const createApiEndpoint = (url: string) => {
   // remove domain
   let APIEndpoint = url.slice(18);
+  APIEndpoint = removePossibleTrailingSlash(APIEndpoint);
+  // remove trailing slash if there is one
   APIEndpoint = githubApiDomain + 'repos' + APIEndpoint;
   return APIEndpoint;
 };
