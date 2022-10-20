@@ -1,4 +1,4 @@
-import { removePossibleTrailingSlash } from './generalUrils';
+import { removePossibleTrailingSlash } from './generalUtils';
 
 export const githubDomain = 'https://github.com/';
 export const githubApiDomain = 'https://api.github.com/';
