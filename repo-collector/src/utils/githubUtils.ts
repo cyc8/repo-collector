@@ -3,6 +3,26 @@ import { removePossibleTrailingSlash } from './generalUrils';
 export const githubDomain = 'https://github.com/';
 export const githubApiDomain = 'https://api.github.com/';
 
+export const categorizeLink = (url: string) => {
+  let urlPath = removePossibleTrailingSlash(url);
+  urlPath = urlPath.replace('https://github.com/', '');
+  const pathDirs = urlPath.split('/');
+
+  switch (pathDirs.length) {
+    case 1:
+      return 'user';
+    case 2:
+      return 'repo';
+    default:
+      return 'file';
+  }
+
+  // https://github.com/
+  // user
+  // repo
+  // file
+};
+
 export const extractRepoName = (url: string) => {
   const cleanedUrl = removePossibleTrailingSlash(url);
   const indexLastSlash = cleanedUrl.lastIndexOf('/');
@@ -10,8 +30,7 @@ export const extractRepoName = (url: string) => {
 };
 
 export const extractRepoOwner = (url: string) => {
-  // remove github domain
-  let repoOwner = url.slice(19);
+  let repoOwner = url.replace('https://github.com/', '');
   const indexSlash = repoOwner.indexOf('/');
   return repoOwner.slice(0, indexSlash);
 };
@@ -33,16 +52,13 @@ export const filterRepoUrls = (href: string) => {
 
 // --------------- transform urls: API - Repo Endpoint ---------------
 export const createRepoEndpoint = (apiUrl: string) => {
-  // remove domain
-  const urlPath = apiUrl.slice(29);
+  const urlPath = apiUrl.replace('https://api.github.com/repos/', '');
   return githubDomain + urlPath;
 };
 
 export const createApiEndpoint = (url: string) => {
-  // remove domain
-  let APIEndpoint = url.slice(18);
-  APIEndpoint = removePossibleTrailingSlash(APIEndpoint);
-  // remove trailing slash if there is one
-  APIEndpoint = githubApiDomain + 'repos' + APIEndpoint;
-  return APIEndpoint;
+  let apiEndpoint = removePossibleTrailingSlash(url);
+  apiEndpoint = apiEndpoint.replace('https://github.com/', '');
+  apiEndpoint = githubApiDomain + 'repos' + apiEndpoint;
+  return apiEndpoint;
 };
