@@ -16,16 +16,19 @@ export function ErrorInfo ({error}:ErrorInfoProps)  {
     return message ? limitExceededMessage.test(message) : false;
   }
   
-  let infoTooltip = ""
+  let infoTooltip = "";
+  let errorInfo = "";
   if(checkApiLimitExceeded()){
-    infoTooltip = "Unfortunately, we can't show you more info because you've reached the API request limit of 60/hour."
+    infoTooltip = "Unfortunately, we can't show you more info because you've reached the API request limit of 60/hour.";
+    errorInfo = "API Limit reached";
   } else {
     infoTooltip = "Sorry, an unexpected error occurred and we couldn't request more info about this repo."
+    errorInfo = "No additional info available"
   }
 
   return(
     <Box sx={{display: 'flex', mb: 2, borderRadius: 1}}>
-      <Typography>API Limit reached</Typography>
+      <Typography>{errorInfo}</Typography>
       <Tooltip arrow title={infoTooltip}>
         <HelpIcon fontSize='small' sx={{opacity: 0.8, ml: 1}}/>
       </Tooltip>
