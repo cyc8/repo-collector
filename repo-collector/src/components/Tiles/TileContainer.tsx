@@ -3,6 +3,7 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
 import Link from '@mui/material/Link';
+import Tooltip from "@mui/material/Tooltip";
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import { extractRepoName, extractRepoOwner, githubDomain } from '../../utils/githubUtils';
 import repo from '../../assets/repo.svg';
@@ -17,6 +18,21 @@ interface TileContainerProps {
   githubUrlType: GithubUrlType;
 }
 export default function TileContainer ({ children, url, githubUrlType }: TileContainerProps) {
+  let documentName = extractRepoName(url);
+  let documentNameElem = <Typography component='h2' variant='h6' sx={{fontWeight: 600}}>{documentName}</Typography>
+  
+  // create shorter version when name is too long
+  const isTooLong = documentName.length > 28
+  let documentNameTooltip = null;
+  if(isTooLong) {
+    documentName = documentName.slice(0, 28) + '...';
+    documentNameTooltip =  (
+      <Tooltip title={url} arrow>
+        <Typography component='h2' variant='h6' sx={{fontWeight: 600}}>{documentName}</Typography>
+      </Tooltip>)
+  }
+  
+  
   return (
     <Paper
       sx={{
@@ -44,7 +60,9 @@ export default function TileContainer ({ children, url, githubUrlType }: TileCon
         {githubUrlType === 'file' && <img src={fileIcon} height='24px' width='24px' alt='file icon' />}
           <Box sx={{pl: 1}}>
             <Link href={url} target='_blank' rel="noreferrer" underline='hover' color="inherit">
-              <Typography component='h2' variant='h6' sx={{fontWeight: 600}}>{extractRepoName(url)}</Typography> {/* TODO restrict length of repo name */}
+
+              {isTooLong ? documentNameTooltip : documentNameElem }
+              {/* <Typography component='h2' variant='h6' sx={{fontWeight: 600}}>{documentName}</Typography> */}
             </Link>
             <Typography component='span'>by <Link href={githubDomain + extractRepoOwner(url)} target='_blank' rel="noreferrer" underline='always' color="inherit">{extractRepoOwner(url)}</Link>
             </Typography>
