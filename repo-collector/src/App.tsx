@@ -45,7 +45,7 @@ export default function App() {
         </Typography>
         <QueryClientProvider client={queryClient}>
           { repoUrls.length !== 0  ? 
-            <Tiles repoUrls={repoUrls}/>
+            <Tiles githubUrls={repoUrls}/>
             :
             <Box sx={{display: 'flex', justifyContent: 'center', mt: 4}}>
               <Loading />

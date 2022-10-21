@@ -4,26 +4,19 @@ import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
 import Link from '@mui/material/Link';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
-import { ErrorInfo } from '../ErrorInfo/ErrorInfo';
-import { RepoStatistics } from '../RepoStatistics/RepoStatistics';
-import { AxiosError } from 'axios';
 import { extractRepoName, extractRepoOwner, githubDomain } from '../../utils/githubUtils';
 import repo from '../../assets/repo.svg';
+import fileIcon from '../../assets/fileIcon.svg';
+import userIcon from '../../assets/userIcon.svg';
 import githubLogo from '../../assets/github-logo-128x128.png';
-import Loading from '../Loading/Loading';
+import { GithubUrlType } from '../../types';
 
-interface RepositoryTileProps {
-  error: null | AxiosError<{message: string}>,
-  isLoading: boolean,
+interface TileContainerProps {
+  children?: React.ReactNode;
   url: string,
-  forks?: number,
-  watchers?: number,
-  stars?: number,
-  lastCommit?: string,
-  published?: string
+  githubUrlType: GithubUrlType;
 }
-
-export default function RepositoryTile ({error, isLoading, forks, watchers, stars, lastCommit, published, url}: RepositoryTileProps ) {
+export default function TileContainer ({ children, url, githubUrlType }: TileContainerProps) {
   return (
     <Paper
       sx={{
@@ -44,9 +37,11 @@ export default function RepositoryTile ({error, isLoading, forks, watchers, star
         <img src={githubLogo} height='50px' width='50px' alt='github logo'/>
       </Box>
 
-       <Box sx={{width: 300}}>
+      <Box sx={{width: 300}}>
         <Box sx={{display: 'flex', alignItems: 'center', pb: 1}}>
-          <img src={repo} height='20px' width='20px' alt='repository icon' />
+        {githubUrlType === 'repo' && <img src={repo} height='20px' width='20px' alt='repository icon' />}
+        {githubUrlType === 'user' && <img src={userIcon} height='20px' width='20px' alt='user icon' />}
+        {githubUrlType === 'file' && <img src={fileIcon} height='20px' width='20px' alt='file icon' />}
           <Box sx={{pl: 1}}>
             <Link href={url} target='_blank' rel="noreferrer" underline='hover' color="inherit">
               <Typography component='h2' variant='h6' sx={{fontWeight: 600}}>{extractRepoName(url)}</Typography> {/* TODO restrict length of repo name */}
@@ -56,32 +51,14 @@ export default function RepositoryTile ({error, isLoading, forks, watchers, star
           </Box>
         </Box>    
         
-          <Box sx={{my: 1}}>
-            {// show loading screen while repo api call
-            isLoading && 
-            <Box sx={{display: 'flex', alignItems: 'center'}}>
-              <Box sx={{mr: 1}}> <Loading size='small' /> </Box>
-              <Typography component='span' color='primary'>Requesting info...</Typography>
-            </Box>}
-
-            {// additional repo info from github api
-              stars && forks && watchers && lastCommit && published &&
-              <RepoStatistics 
-                stars={stars}
-                forks={forks}
-                watchers={watchers}
-                lastCommit={lastCommit}
-                published={published}
-              />}
-
-            {// show error message when error
-            error && !isLoading && <ErrorInfo error={error}/>}
-        </Box>
+        {githubUrlType === 'repo' && children }
 
         <Button href={url} target='_blank' rel="noreferrer" size='small' variant='contained' endIcon={<OpenInNewIcon />}>
-          View Repo         
+          {githubUrlType === 'repo' && <>View Repo</>}
+          {githubUrlType === 'user' && <>View Profile</>}
+          {githubUrlType === 'file' && <>View File</>}
         </Button>
       </Box>
     </Paper>
   );
-};
+}
