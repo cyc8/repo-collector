@@ -37,7 +37,7 @@ export default function TileContainer ({ children, url, githubUrlType }: TileCon
         <img src={githubLogo} height='50px' width='50px' alt='github logo'/>
       </Box>
 
-      <Box sx={{width: 300}}>
+      <Box sx={{width: 350}}>
         <Box sx={{display: 'flex', alignItems: 'center', pb: 1}}>
         {githubUrlType === 'repo' && <img src={repo} height='20px' width='20px' alt='repository icon' />}
         {githubUrlType === 'user' && <img src={userIcon} height='24px' width='24px' alt='user icon' />}

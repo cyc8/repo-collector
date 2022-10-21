@@ -17,6 +17,7 @@ export function RepoStatistics ({forks, watchers, stars, lastCommit, published}:
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
+        maxWidth: '300px',
       }}>
         <MetricBox count={stars} type='stars'/>
         <MetricBox count={forks} type='forks'/>
