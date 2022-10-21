@@ -1,8 +1,6 @@
 import { DOMMessage, ReposMessageResponse } from '../types';
 import { filterRepoUrls } from '../utils/githubUtils';
 
-// TODO check manifest permissions
-
 const messagesFromReactAppListener = (
   msg: DOMMessage,
   sender: chrome.runtime.MessageSender,

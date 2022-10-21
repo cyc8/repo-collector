@@ -40,8 +40,8 @@ export default function App() {
         <Typography component='h1' variant='h4' sx={{mb: 3, fontWeight: 700, fontSize: '1.75rem', textAlign: 'center', color: 'primary.main'}}>
           Repo Collector
         </Typography>
-        <Typography component='p' sx={{color: 'rgba(255,255,255,0.5)'}}>
-          { repoUrls && <> Repos on page: <b>{repoUrls.length}</b> </> }
+        <Typography component='p' sx={{color: 'rgba(255,255,255,0.5)', mb: 1}}>
+          { repoUrls && <> Found on page: <b>{repoUrls.length}</b> </> }
         </Typography>
         <QueryClientProvider client={queryClient}>
           { repoUrls.length !== 0  ? 
