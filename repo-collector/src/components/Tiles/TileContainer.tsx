@@ -23,7 +23,7 @@ export default function TileContainer ({ children, url, githubUrlType }: TileCon
         borderRadius: 2,
         backgroundColor: '#D8D8D8',
         padding: 1,
-        margin: 1.5,
+        my: 1.5,
         display: 'flex',
       }}
     >
@@ -40,8 +40,8 @@ export default function TileContainer ({ children, url, githubUrlType }: TileCon
       <Box sx={{width: 300}}>
         <Box sx={{display: 'flex', alignItems: 'center', pb: 1}}>
         {githubUrlType === 'repo' && <img src={repo} height='20px' width='20px' alt='repository icon' />}
-        {githubUrlType === 'user' && <img src={userIcon} height='20px' width='20px' alt='user icon' />}
-        {githubUrlType === 'file' && <img src={fileIcon} height='20px' width='20px' alt='file icon' />}
+        {githubUrlType === 'user' && <img src={userIcon} height='24px' width='24px' alt='user icon' />}
+        {githubUrlType === 'file' && <img src={fileIcon} height='24px' width='24px' alt='file icon' />}
           <Box sx={{pl: 1}}>
             <Link href={url} target='_blank' rel="noreferrer" underline='hover' color="inherit">
               <Typography component='h2' variant='h6' sx={{fontWeight: 600}}>{extractRepoName(url)}</Typography> {/* TODO restrict length of repo name */}
