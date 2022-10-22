@@ -14,8 +14,10 @@ const queryClient = new QueryClient();
 
 export default function App() {
   const [repoUrls, setRepoUrls] = useState<string[]>([]);
+  const [loading, setLoading] = useState(true); 
 
   useEffect(() => {
+    setLoading(true);
     chrome.tabs && chrome.tabs.query({ active: true, currentWindow: true }, ([tab]) => {
       chrome.tabs.sendMessage(
         // Current tab ID
@@ -27,6 +29,7 @@ export default function App() {
         // Callback executed when the content script sends a response
         (repoUrls: ReposMessageResponse) => {
            setRepoUrls(repoUrls);
+           setLoading(false);
       });
       if (chrome.runtime.lastError) {
         console.log('getActiveTab', chrome.runtime.lastError.message);
@@ -41,15 +44,18 @@ export default function App() {
           Repo Collector
         </Typography>
         <Typography component='p' sx={{color: 'rgba(255,255,255,0.5)', mb: 1}}>
-          { repoUrls && <> Found on page: <b>{repoUrls.length}</b> </> }
+          { repoUrls.length !== 0 && <> Found on page: <b>{repoUrls.length}</b> </> }
         </Typography>
         <QueryClientProvider client={queryClient}>
-          { repoUrls.length !== 0  ? 
+          { loading && 
+          <Box sx={{display: 'flex', justifyContent: 'center', mt: 4}}>
+            <Loading />
+          </Box> }
+          {/* Show tiles when loading finished or nothing found screen */}
+          { (!loading && repoUrls.length !== 0)  ? 
             <Tiles githubUrls={repoUrls}/>
             :
-            <Box sx={{display: 'flex', justifyContent: 'center', mt: 4}}>
-              <Loading />
-            </Box>
+            <Typography sx={{color: 'white', mt: 2}}>No GitHub Links found</Typography>
           }
         <ReactQueryDevtools initialIsOpen={false} />
         </QueryClientProvider>
