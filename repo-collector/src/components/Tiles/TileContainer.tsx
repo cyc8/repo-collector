@@ -18,17 +18,17 @@ interface TileContainerProps {
   githubUrlType: GithubUrlType;
 }
 export default function TileContainer ({ children, url, githubUrlType }: TileContainerProps) {
-  let documentName = extractRepoName(url);
-  let documentNameElem = <Typography component='h2' variant='h6' sx={{fontWeight: 600}}>{documentName}</Typography>
+  const documentName = extractRepoName(url);
+  const documentNameElem = <Typography component='h2' variant='h6' sx={{fontWeight: 600}}>{documentName}</Typography>
   
-  // create shorter version when name is too long
+  // create condensed version if name is too long
   const isTooLong = documentName.length > 28
   let documentNameTooltip = null;
   if(isTooLong) {
-    documentName = documentName.slice(0, 28) + '...';
+    const condensedDocumentName = documentName.slice(0, 28) + '...';
     documentNameTooltip =  (
-      <Tooltip title={url} arrow>
-        <Typography component='h2' variant='h6' sx={{fontWeight: 600}}>{documentName}</Typography>
+      <Tooltip title={documentName} arrow>
+        <Typography component='h2' variant='h6' sx={{fontWeight: 600}}>{condensedDocumentName}</Typography>
       </Tooltip>)
   }
   
