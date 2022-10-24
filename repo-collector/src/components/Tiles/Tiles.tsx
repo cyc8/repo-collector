@@ -49,7 +49,8 @@ export default function Tiles ({githubUrls}: TilesProps) {
           return res.data
         }),
         // staleTime: tells you how fresh you data is, staleTime: Infinity --> marks that the data never get stale/old
-        staleTime: Infinity
+        staleTime: Infinity,
+        retry: false,
       }
     })
   })
