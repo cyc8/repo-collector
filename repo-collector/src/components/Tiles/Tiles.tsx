@@ -60,7 +60,7 @@ export default function Tiles ({githubUrls}: TilesProps) {
   return (
     <>
       {/* all repositories  */}
-      {categorizedRepoUrls.length && 
+      {categorizedRepoUrls.length !== 0 && 
         <>
           <Typography component='h2' variant='h5' color='#eaeaea'>Repos</Typography>
           <Divider sx={{my: 0.5, backgroundColor: '#686868', height: '4px', borderRadius: '2px'}}/>
@@ -90,7 +90,7 @@ export default function Tiles ({githubUrls}: TilesProps) {
       })}
 
       {/* all users */}
-      {categorizedUserUrls.length && 
+      {categorizedUserUrls.length !== 0 && 
       <>
         <Typography component='h2' variant='h5' color='#eaeaea'>Users</Typography>
         <Divider sx={{my: 0.5, backgroundColor: '#686868', height: '4px', borderRadius: '2px'}}/>
@@ -104,7 +104,7 @@ export default function Tiles ({githubUrls}: TilesProps) {
       })}
 
       {/* all files */}
-      {categorizedFileUrls.length &&
+      {categorizedFileUrls.length !== 0 &&
       <>
         <Typography component='h2' variant='h5' color='#eaeaea'>Files</Typography>
         <Divider sx={{my: 0.5, backgroundColor: '#686868', height: '4px', borderRadius: '2px'}}/>
