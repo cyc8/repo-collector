@@ -39,7 +39,9 @@ export const filterRepoUrls = (href: string) => {
   // githubRepoName '[\w\.@\:\/\-~]+$'
 
   // regex modules
-  const github = /^https:\/\/github\.com\/[^/]{1,38}\/[\w.@:/\-~]+$/;
+  const github = /^https:\/\/github\.com\//;
+  // const githubRepo = /^https:\/\/github\.com\/[^/]{1,38}\/[\w.@:/\-~]+$/;
+
   // const bitbucket = /^https:\/\/bitbucket\.org\//;
   // const gitlab = /^https:\/\/gitlab\.com\//;
 
