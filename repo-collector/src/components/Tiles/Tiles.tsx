@@ -1,7 +1,7 @@
 import axios, {AxiosError} from 'axios';
 import { useQueries } from "@tanstack/react-query";
 import { createRepoApiEndpoint, categorizeLink } from '../../utils/githubUtils';
-import { ReposMessageResponse, GithubResponse, GithubUrlType } from '../../types';
+import { GithubResponse, GithubUrlType } from '../../types';
 import TileContainer from './TileContainer';
 import RepoData from './RepoData';
 import Typography from '@mui/material/Typography';
@@ -9,7 +9,7 @@ import Divider from '@mui/material/Divider';
 
 
 interface TilesProps {
-  githubUrls: ReposMessageResponse
+  githubUrls: string[]
 }
 
 export default function Tiles ({githubUrls}: TilesProps) {

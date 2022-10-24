@@ -14,6 +14,7 @@ const queryClient = new QueryClient();
 
 export default function App() {
   const [repoUrls, setRepoUrls] = useState<string[]>([]);
+  const [disabled, setDisabled] = useState(true); 
   const [loading, setLoading] = useState(true); 
 
   useEffect(() => {
@@ -27,8 +28,9 @@ export default function App() {
         { type: 'GET_DOM' } as DOMMessage,
 
         // Callback executed when the content script sends a response
-        (repoUrls: ReposMessageResponse) => {
-           setRepoUrls(repoUrls);
+        (response: ReposMessageResponse) => {
+           setRepoUrls(response.repoUrls);
+           setDisabled(response.disabled);
            setLoading(false);
       });
       if (chrome.runtime.lastError) {
@@ -51,11 +53,17 @@ export default function App() {
           <Box sx={{display: 'flex', justifyContent: 'center', mt: 4}}>
             <Loading />
           </Box> }
-          {/* Show tiles when loading finished or nothing found screen */}
+          {/* Show tiles when loading finished, otherwise the nothing found screen */}
           { (!loading && repoUrls.length !== 0)  ? 
             <Tiles githubUrls={repoUrls}/>
             :
-            <Typography sx={{color: 'white', mt: 2}}>No GitHub Links found</Typography>
+            // show relevant text depending if website is github or no repos found
+            <> { disabled ? 
+             <Typography sx={{color: 'white', mt: 2}}>Disabled on GitHub</Typography>
+             :
+             <Typography sx={{color: 'white', mt: 2}}>No GitHub links found</Typography>
+            }
+            </>
           }
         <ReactQueryDevtools initialIsOpen={false} />
         </QueryClientProvider>

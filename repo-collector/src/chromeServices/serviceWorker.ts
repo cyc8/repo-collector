@@ -10,8 +10,8 @@ const handlePageChange = async (tabId: number, tab: chrome.tabs.Tab, changeInfo?
     // Message type
     { type: 'GET_DOM' } as DOMMessage,
     // Callback executed when the content script sends a response
-    (repoUrls: ReposMessageResponse) => {
-      updateBadge(tabId, repoUrls.length);
+    (response: ReposMessageResponse) => {
+      updateBadge(tabId, response.repoUrls.length, response.disabled);
     }
   );
 };
@@ -22,16 +22,21 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
 });
 
 // set badge to number of repos found on page
-const updateBadge = (tabId: number, repoCount: number) => {
+const updateBadge = (tabId: number, repoCount: number, disabled: boolean) => {
   // return when tabId is not set which is equal 0
   if (tabId === 0) return;
 
   // only add badge when in production otherwise it will fail in dev
   if (process.env.NODE_ENV === 'production') {
-    //display badge when repos were found, otherwise empty string means no badge
-    let badgeCount = repoCount === 0 ? '' : repoCount.toString();
-    chrome.action.setBadgeText({ text: badgeCount, tabId: tabId });
-    chrome.action.setBadgeBackgroundColor({ color: '#ff3737' });
+    if (disabled) {
+      chrome.action.setBadgeText({ text: 'off', tabId: tabId });
+      chrome.action.setBadgeBackgroundColor({ color: '#555555' });
+    } else {
+      //display badge when repos were found, otherwise empty string means no badge
+      let badgeCount = repoCount === 0 ? '' : repoCount.toString();
+      chrome.action.setBadgeText({ text: badgeCount, tabId: tabId });
+      chrome.action.setBadgeBackgroundColor({ color: '#ff3737' });
+    }
   }
 };
 
