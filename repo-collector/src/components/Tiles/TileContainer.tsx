@@ -68,8 +68,10 @@ export default function TileContainer ({ children, url, githubUrlType }: TileCon
             <Link href={url} target='_blank' rel="noreferrer" underline='hover' color="inherit">
               {documentName}
             </Link>
-            <Typography component='span'>by <Link href={githubDomain + extractRepoOwner(url)} target='_blank' rel="noreferrer" underline='always' color="inherit">{extractRepoOwner(url)}</Link>
-            </Typography>
+            { githubUrlType !== 'user' &&
+              <Typography component='span'>by <Link href={githubDomain + extractRepoOwner(url)} target='_blank' rel="noreferrer" underline='always' color="inherit">{extractRepoOwner(url)}</Link>
+              </Typography>
+            }
           </Box>
         </Box>    
         
