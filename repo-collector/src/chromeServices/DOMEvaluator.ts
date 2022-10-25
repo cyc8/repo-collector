@@ -9,7 +9,6 @@ const messagesFromReactAppListener = (
   // disable when on github
   const currentUrl = new URL(window.location.href);
   const domain = currentUrl.hostname;
-
   if (domain === 'github.com') {
     sendResponse({
       disabled: true,
@@ -34,7 +33,7 @@ const messagesFromReactAppListener = (
   });
 };
 
-/**
+/*
 Register Message Listener:
 Fired when a message is sent from either an extension process or a content script.
 */
