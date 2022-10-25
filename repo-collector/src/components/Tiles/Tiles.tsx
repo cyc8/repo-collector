@@ -55,7 +55,6 @@ export default function Tiles ({githubUrls}: TilesProps) {
     })
   })
 
-  console.log(reposData);
   const isLoading = reposData.some((repoData) => { return repoData.isLoading });
 
   return (

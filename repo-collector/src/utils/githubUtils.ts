@@ -19,16 +19,32 @@ export const categorizeLink = (url: string): GithubUrlType => {
   }
 };
 
+export const extractDocumentName = (url: string) => {
+  const type = categorizeLink(url);
+  let urlPath = removePossibleTrailingSlash(url);
+  urlPath = urlPath.replace(githubDomain, '');
+  const pathDirs = urlPath.split('/');
+
+  switch (type) {
+    case 'user':
+      return pathDirs[0];
+    case 'repo':
+      return pathDirs[1];
+    case 'file':
+      return pathDirs[pathDirs.length - 1];
+  }
+};
+
 export const extractRepoName = (url: string) => {
-  const cleanedUrl = removePossibleTrailingSlash(url);
-  const indexLastSlash = cleanedUrl.lastIndexOf('/');
-  return cleanedUrl.slice(indexLastSlash + 1);
+  const urlPath = url.replace(githubDomain, '');
+  const pathDirs = urlPath.split('/');
+  return pathDirs[1];
 };
 
 export const extractRepoOwner = (url: string) => {
-  let repoOwner = url.replace(githubDomain, '');
-  const indexSlash = repoOwner.indexOf('/');
-  return repoOwner.slice(0, indexSlash);
+  const urlPath = url.replace(githubDomain, '');
+  const pathDirs = urlPath.split('/');
+  return pathDirs[0];
 };
 
 export const filterRepoUrls = (href: string) => {
