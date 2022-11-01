@@ -9,6 +9,7 @@ import Tiles from  './components/Tiles/Tiles';
 import Loading from './components/Loading/Loading';
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import sadOctopus from './assets/sad_octopus_512x512.png'
 
 const queryClient = new QueryClient();
 
@@ -61,7 +62,10 @@ export default function App() {
             <> { disabled ? 
              <Typography sx={{color: 'white', mt: 2}}>Disabled on GitHub</Typography>
              :
-             <Typography sx={{color: 'white', mt: 2}}>No GitHub links found</Typography>
+             <>
+              <Typography sx={{color: 'white', mt: 2}}>No GitHub links found</Typography>
+              <img src={sadOctopus} alt='sad looking octopus' />
+             </>
             }
             </>
           }
