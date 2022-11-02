@@ -12,6 +12,8 @@
 
 # architecture
 
+- ReactJS with CRA
+- React Query: GitHub API requests
 - use CRACO to have a seperate JavaScript file for the ContentScripts
   - `craco.config.js` will create the seperate file in `static/js/[filename].js` location
 
