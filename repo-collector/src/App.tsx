@@ -64,7 +64,7 @@ export default function App() {
              :
              <>
               <Typography sx={{color: 'white', mt: 2}}>No GitHub links found</Typography>
-              <img src={sadOctopus} alt='sad looking octopus' />
+              <img src={sadOctopus} alt='sad looking octopus' width='100px' />
              </>
             }
             </>
