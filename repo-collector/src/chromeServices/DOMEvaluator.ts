@@ -7,8 +7,8 @@ const messagesFromReactAppListener = (
   sendResponse: (response: ReposMessageResponse) => void
 ) => {
   // disable when on github
-  const currentUrl = new URL(window.location.href);
-  const domain = currentUrl.hostname;
+  const urlObject = new URL(window.location.href);
+  const domain = urlObject.hostname;
   if (domain === 'github.com') {
     sendResponse({
       disabled: true,

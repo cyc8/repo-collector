@@ -2,7 +2,9 @@ import { DOMMessage, ReposMessageResponse } from '../types';
 
 const handlePageChange = async (tabId: number, tab: chrome.tabs.Tab, changeInfo?: chrome.tabs.TabChangeInfo) => {
   // skip when on browser specific pages
-  if (tab.url && (tab.url.includes('chrome://') || tab.url.includes('chrome-extension://'))) return;
+  if (tab.url && (tab.url.includes('chrome://') || tab.url.includes('chrome-extension://') || tab.url.includes('urlchrome://newtab/'))) {
+    return;
+  }
 
   chrome.tabs.sendMessage(
     // Current tab ID

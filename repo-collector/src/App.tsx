@@ -5,17 +5,16 @@ import theme from './theme';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import './App.css';
-import Tiles from  './components/Tiles/Tiles';
+import Result from './Result';
 import Loading from './components/Loading/Loading';
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-import sadOctopus from './assets/sad_octopus_512x512.png'
 
 const queryClient = new QueryClient();
 
 export default function App() {
   const [repoUrls, setRepoUrls] = useState<string[]>([]);
-  const [disabled, setDisabled] = useState(true); 
+  const [disabled, setDisabled] = useState(false); 
   const [loading, setLoading] = useState(true); 
 
   useEffect(() => {
@@ -50,25 +49,13 @@ export default function App() {
           { repoUrls.length !== 0 && <> Found on page: <b>{repoUrls.length}</b> </> }
         </Typography>
         <QueryClientProvider client={queryClient}>
-          { loading && 
+          {/* Show tiles when loading finished, otherwise the nothing found screen */}
+          { loading ?  
           <Box sx={{display: 'flex', justifyContent: 'center', mt: 4}}>
             <Loading />
-          </Box> }
-          {/* Show tiles when loading finished, otherwise the nothing found screen */}
-          { (!loading && repoUrls.length !== 0)  ? 
-            <Tiles githubUrls={repoUrls}/>
-            :
-            // show relevant text depending if website is github or no repos found
-            <> { disabled ? 
-             <Typography sx={{color: 'white', mt: 2}}>Disabled on GitHub</Typography>
-             :
-             <>
-              <Typography sx={{color: 'white', mt: 2}}>No GitHub links found</Typography>
-              <img src={sadOctopus} alt='sad looking octopus' width='100px' />
-             </>
-            }
-            </>
-          }
+          </Box>
+          :
+          <Result githubUrls={repoUrls} disabled={disabled}/> }
         <ReactQueryDevtools initialIsOpen={false} />
         </QueryClientProvider>
       </Box>
