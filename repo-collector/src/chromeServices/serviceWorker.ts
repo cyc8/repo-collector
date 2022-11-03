@@ -32,12 +32,12 @@ const updateBadge = (tabId: number, repoCount: number, disabled: boolean) => {
   if (process.env.NODE_ENV === 'production') {
     if (disabled) {
       chrome.action.setBadgeText({ text: 'off', tabId: tabId });
-      chrome.action.setBadgeBackgroundColor({ color: '#555555' });
+      chrome.action.setBadgeBackgroundColor({ color: '#000' });
     } else {
       //display badge when repos were found, otherwise empty string means no badge
       let badgeCount = repoCount === 0 ? '' : repoCount.toString();
       chrome.action.setBadgeText({ text: badgeCount, tabId: tabId });
-      chrome.action.setBadgeBackgroundColor({ color: '#ff3737' });
+      chrome.action.setBadgeBackgroundColor({ color: '#000' });
     }
   }
 };
