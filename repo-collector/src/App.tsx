@@ -49,7 +49,7 @@ export default function App() {
           {/* Show tiles when loading finished, otherwise the nothing found screen */}
         <Box sx={{px: 2}}>
           { loading ?  
-          <Box sx={{display: 'flex', justifyContent: 'center', mt: 4}}>
+          <Box sx={{height: '346px', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
             <Loading />
           </Box>
           :
