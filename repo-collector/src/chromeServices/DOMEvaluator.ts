@@ -25,6 +25,7 @@ const messagesFromReactAppListener = (
     return filterRepoUrls(href);
   });
 
+  // filter out only unique links
   const uniqueRepos = githubLinks.filter((v, i, a) => a.indexOf(v) === i);
 
   sendResponse({
