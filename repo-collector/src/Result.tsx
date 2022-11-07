@@ -17,7 +17,7 @@ export default function Result ({githubUrls, disabled}: ResultsProps) {
         <Tiles githubUrls={githubUrls}/>
         :
         <Box sx={{
-          height: '346px',
+          height: '322px',
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
