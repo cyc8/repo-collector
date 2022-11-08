@@ -11,6 +11,7 @@ __pycache
 .DS_Store
 examples
 repo-collector.ai
+build.zip
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
