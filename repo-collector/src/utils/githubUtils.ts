@@ -35,12 +35,6 @@ export const extractDocumentName = (url: string) => {
   }
 };
 
-export const extractRepoName = (url: string) => {
-  const urlPath = url.replace(githubDomain, '');
-  const pathDirs = urlPath.split('/');
-  return pathDirs[1];
-};
-
 export const extractRepoOwner = (url: string) => {
   const urlPath = url.replace(githubDomain, '');
   const pathDirs = urlPath.split('/');
