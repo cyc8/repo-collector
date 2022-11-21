@@ -17,7 +17,9 @@ export default function Headers ({reposCount}:HeaderProps) {
         justifyContent: 'center', 
         mb: 1.5,
         borderBottom: '2px solid #333',
-      }}>
+      }}
+        data-testid='extension-header'
+      >
         <img src={avatar} alt='repo collector avatar' height='40px' width='75'/>
         <Typography component='h1' variant='h4' sx={{
           ml: 1.5, 
