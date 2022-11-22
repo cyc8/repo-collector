@@ -7,11 +7,12 @@ orbs:
   node: circleci/node@5.0.3
 
 jobs:
-  run-tests:
+  run-jest-tests:
     executor: node/default # use the default executor defined within the orb
-    working_directory: ~/project/repo-collector
+    working_directory: ~/repo-collector
     steps:
-      - checkout
+      - checkout:
+          path:  ~/repo-collector
       - node/install-packages:
           pkg-manager: npm
       - run:
@@ -25,7 +26,7 @@ jobs:
 
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 workflows:
-  run-test-job:
+  run-tests:
     # Inside the workflow, you define the jobs you want to run.
     jobs:
-      - run-tests
+      - run-jest-tests
