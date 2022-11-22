@@ -9,7 +9,7 @@ orbs:
 jobs:
   run-jest-tests:
     executor: node/default # use the default executor defined within the orb
-    working_directory: ~/repo-collector
+    working_directory: ~/project/repo-collector
     steps:
       - checkout:
           path:  ~/repo-collector
