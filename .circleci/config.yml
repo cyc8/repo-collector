@@ -20,3 +20,6 @@ workflows:
           app-dir: ~/project/repo-collector
           version: '16.10'
           pkg-manager: npm
+          # upload test result to codecov
+          post-steps:
+            - codecov/upload
