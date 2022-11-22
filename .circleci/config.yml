@@ -9,11 +9,12 @@ orbs:
 jobs:
   run-tests:
     executor: node/default # use the default executor defined within the orb
-    app-dir: "~/project/repo-collector"
+    
     steps:
       - checkout
       - node/install-packages:
          pkg-manager: npm
+         app-dir: "~/project/repo-collector"
       - run:
           command: npm run test
           name: Run tests
