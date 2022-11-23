@@ -1,5 +1,5 @@
 import { DOMMessage, ReposMessageResponse } from '../types';
-import { filterRepoUrls } from '../utils/githubUtils';
+import { filterRepoUrls } from '../utils/generalUtils';
 
 const messagesFromReactAppListener = (
   msg: DOMMessage,

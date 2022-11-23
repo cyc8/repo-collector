@@ -41,26 +41,6 @@ export const extractRepoOwner = (url: string) => {
   return pathDirs[0];
 };
 
-export const filterRepoUrls = (href: string) => {
-  // github regex segments:
-  // ------------------------------------------
-  // githubDomain '^https:\/\/github\.com\/'
-  // githubUser '[^\/]{1,38}\/'
-  // githubRepoName '[\w\.@\:\/\-~]+$'
-  // const githubRepo = /^https:\/\/github\.com\/[^/]{1,38}\/[\w.@:/\-~]+$/;
-
-  // skip powered by github links
-  if (href === 'https://github.com/' || href === 'https://github.com') return false;
-
-  // regex modules
-  const github = /^https:\/\/github\.com\//;
-
-  // const bitbucket = /^https:\/\/bitbucket\.org\//;
-  // const gitlab = /^https:\/\/gitlab\.com\//;
-
-  return github.test(href);
-};
-
 // --------------- transform urls: API - Repo Endpoint ---------------
 export const createRepoEndpoint = (apiUrl: string) => {
   const urlPath = apiUrl.replace(`${githubApiDomain}repos/`, '');
