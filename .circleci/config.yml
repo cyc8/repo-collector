@@ -7,6 +7,18 @@ orbs:
   node: circleci/node@5.0.3
   codecov: codecov/codecov@3.2.4
 
+jobs:
+  upload-test-results:
+      docker:
+      # replace with your preferred image
+      - image: cimg/base:stable
+      steps:
+        - codecov/upload:
+            validate_url: true 
+            flags: unittest 
+            file: ~/project/repo-collector 
+            token: $CODECOV_TOKEN
+
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 workflows:
@@ -20,10 +32,4 @@ workflows:
           app-dir: ~/project/repo-collector
           version: '16.10'
           pkg-manager: npm
-          # upload test result to codecov
-          post-steps:
-            - codecov/upload:
-              validate_url: true 
-              flags: unittest 
-              file: ~/project/repo-collector 
-              token: '6922a12b-8f92-4cba-b310-155bdeb76d94'
+      - upload-test-results 
