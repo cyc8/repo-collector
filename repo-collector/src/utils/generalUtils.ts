@@ -1,25 +1,38 @@
+// regex git hoster
+const github = /^https:\/\/github\.com\//;
+const gitlab = /^https:\/\/gitlab\.com\//;
+const bitbucket = /^https:\/\/bitbucket\.org\//;
+
 export const removePossibleTrailingSlash = (url: string) => {
   // checks if last character is a slash and removes it if so
   if (url.slice(-1) === '/') return url.slice(0, -1);
   return url;
 };
 
-export const filterRepoUrls = (href: string) => {
-  // github regex segments:
-  // ------------------------------------------
-  // githubDomain '^https:\/\/github\.com\/'
-  // githubUser '[^\/]{1,38}\/'
-  // githubRepoName '[\w\.@\:\/\-~]+$'
-  // const githubRepo = /^https:\/\/github\.com\/[^/]{1,38}\/[\w.@:/\-~]+$/;
-
+export const filterGitHosterUrls = (href: string) => {
   // skip powered by github links
-  if (href === ('https://github.com/' || 'https://github.com')) return false;
-  if (href === ('https://github.com/' || 'https://github.com')) return false;
+  const gitHosterHomepage = [
+    'https://github.com/',
+    'https://github.com',
+    'https://gitlab.com/',
+    'https://gitlab.com',
+    'https://bitbucket.org/',
+    'https://bitbucket.org',
+  ];
+  if (gitHosterHomepage.includes(href)) return false;
 
-  // regex modules
-  const github = /^https:\/\/github\.com\//;
-  const gitlab = /^https:\/\/gitlab\.com\//;
-  // const bitbucket = /^https:\/\/bitbucket\.org\//;
-  const isRepoHoster = github.test(href) || gitlab.test(href);
-  return isRepoHoster;
+  // group links
+  return getGitHoster(href) !== 'No Git Hoster';
+};
+
+export const getGitHoster = (href: string) => {
+  if (github.test(href)) {
+    return 'GitHub';
+  } else if (gitlab.test(href)) {
+    return 'GitLab';
+  } else if (bitbucket.test(href)) {
+    return 'Bitbucket';
+  } else {
+    return 'No Git Hoster';
+  }
 };

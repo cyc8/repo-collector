@@ -1,4 +1,4 @@
-import {filterRepoUrls} from './generalUtils';
+import {filterGitHosterUrls} from './generalUtils';
 
 it('get only repository links', () => {
   const sampleUrls = [
@@ -29,16 +29,19 @@ it('get only repository links', () => {
     "https://github.com/",
     "https://github.com",
     "https://gitlab.com/saurabhshah231/reactjs-myapp/-/tree/master/",
+    "https://gitlab.com/",
+    "https://gitlab.com",
+    "https://bitbucket.org"
   ]
 
-  const onlyRepoHosterLinks = [
+  const onlyGitHosterLinks = [
     "https://github.com/facebook/jest/tree/main/examples/enzyme",
     "https://github.com/facebook/jest/edit/main/website/versioned_docs/version-29.3/TutorialReact.md",
     "https://github.com/facebook/jest",
     "https://gitlab.com/saurabhshah231/reactjs-myapp/-/tree/master/",
   ]
   const actualFilteredLinks = sampleUrls.filter((link) => {
-    return filterRepoUrls(link)
+    return filterGitHosterUrls(link)
   });
-  expect(actualFilteredLinks).toEqual(onlyRepoHosterLinks);
+  expect(actualFilteredLinks).toEqual(onlyGitHosterLinks);
 })
