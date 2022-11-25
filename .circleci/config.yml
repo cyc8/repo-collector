@@ -12,7 +12,7 @@ jobs:
         - codecov/upload:
             flags: unittest 
             file: ~/project/repo-collector
-            token: $CODECOV_TOKEN
+            token: CODECOV_TOKEN #set the token to the env variable
 
 workflows:
   test:
