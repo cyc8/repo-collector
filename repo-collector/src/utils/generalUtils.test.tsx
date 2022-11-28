@@ -41,7 +41,7 @@ it('get only repository links', () => {
     "https://gitlab.com/saurabhshah231/reactjs-myapp/-/tree/master/",
   ]
   const actualFilteredLinks = sampleUrls.filter((link) => {
-    return getGitHoster(link) !== "No Git Link"
+    return getGitHoster(link) !== "No Git Hoster"
   });
   expect(actualFilteredLinks).toEqual(onlyGitHosterLinks);
 })

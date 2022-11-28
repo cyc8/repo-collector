@@ -6,28 +6,38 @@ import TileContainer from './TileContainer';
 import RepoData from './RepoData';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
+import { getGitHoster } from '../../utils/generalUtils'
 
 
 interface TilesProps {
-  githubUrls: string[]
+  gitUrls: string[]
 }
 
-export default function Tiles ({githubUrls}: TilesProps) {
+export default function Tiles ({gitUrls}: TilesProps) {
+
+  // identify git hosters
+  const gitHosterObjects = gitUrls.map((gitUrl) => {
+    return {gitUrl: gitUrl, gitHoster: getGitHoster(gitUrl)}
+  })
+
+  const githubObjects = gitHosterObjects.filter((gitHosterObject) => {return gitHosterObject.gitHoster === 'GitHub'})
+  const gitlabObjects = gitHosterObjects.filter((gitHosterObject) => {return gitHosterObject.gitHoster === 'GitLab'})
+  const bitbucketObjects = gitHosterObjects.filter((gitHosterObject) => {return gitHosterObject.gitHoster === 'Bitbucket'})
   
   // categorize github links
-  const categorizedGithubUrls = githubUrls.map((githubUrl) => {
+  const categorizedGithubUrls = githubObjects.map(({gitUrl}) => {
     // generate repo api endpoints when link type repo
-    if (categorizeLink(githubUrl) === 'repo') {
+    if (categorizeLink(gitUrl) === 'repo') {
       return {
-        url: githubUrl,
-        apiUrl: createRepoApiEndpoint(githubUrl),
-        type: categorizeLink(githubUrl)
+        url: gitUrl,
+        apiUrl: createRepoApiEndpoint(gitUrl),
+        type: categorizeLink(gitUrl)
       }
     }
     return {
-      url: githubUrl,
+      url: gitUrl,
       apiUrl: '',
-      type: categorizeLink(githubUrl)
+      type: categorizeLink(gitUrl)
     }
   });
 
@@ -57,9 +67,29 @@ export default function Tiles ({githubUrls}: TilesProps) {
 
   const isLoading = reposData.some((repoData) => { return repoData.isLoading });
 
+  // create GitLab and Bitbucket tiles
+  let gitlabTiles = null;
+  let bitbucketTiles = null;
+  if(gitlabObjects.length > 0){
+    gitlabTiles = gitlabObjects.map((gitlabObject) => { 
+      return <TileContainer url={gitlabObject.gitUrl} gitHoster={gitlabObject.gitHoster}/>
+     })
+  }
+  if(bitbucketObjects.length > 0){
+    bitbucketTiles = bitbucketObjects.map((bitbucketObject) => { 
+      return <TileContainer url={bitbucketObject.gitUrl} gitHoster={bitbucketObject.gitHoster}/>
+     })
+  }
+
   return (
     <>
-      {/* all repositories  */}
+      {/* all gitlab links  */}
+      { gitlabTiles }
+
+      {/* all bitbucket links  */}
+      { bitbucketTiles }
+
+      {/* all github repositories  */}
       {categorizedRepoUrls.length !== 0 && 
         <>
           <Typography component='h2' variant='h5' color='#eaeaea'>Repos</Typography>
@@ -74,6 +104,7 @@ export default function Tiles ({githubUrls}: TilesProps) {
             key={index}
             githubUrlType={githubUrlType}
             url={categorizedRepoUrls[index].url}
+            gitHoster="GitHub"
           >
             {githubUrlType === 'repo' && 
             <RepoData 
@@ -89,7 +120,7 @@ export default function Tiles ({githubUrls}: TilesProps) {
         )
       })}
 
-      {/* all users */}
+      {/* all github users */}
       {categorizedUserUrls.length !== 0 && 
       <>
         <Typography component='h2' variant='h5' color='#eaeaea'>Users</Typography>
@@ -100,10 +131,11 @@ export default function Tiles ({githubUrls}: TilesProps) {
           key={index}
           githubUrlType={githubUrl.type}
           url={githubUrl.url}
+          gitHoster="GitHub"
         />)
       })}
 
-      {/* all files */}
+      {/* all github files */}
       {categorizedFileUrls.length !== 0 &&
       <>
         <Typography component='h2' variant='h5' color='#eaeaea'>Files</Typography>
@@ -114,6 +146,7 @@ export default function Tiles ({githubUrls}: TilesProps) {
           key={index}
           githubUrlType={githubUrl.type}
           url={githubUrl.url}
+          gitHoster="GitHub"
         />)
       })}
 

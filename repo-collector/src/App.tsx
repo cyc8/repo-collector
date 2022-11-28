@@ -15,7 +15,7 @@ import Loading from './components/Loading/Loading';
 const queryClient = new QueryClient();
 
 export default function App() {
-  const [repoUrls, setRepoUrls] = useState<string[]>([]);
+  const [gitUrls, setGitUrls] = useState<string[]>([]);
   const [disabled, setDisabled] = useState(false); 
   const [loading, setLoading] = useState(true); 
 
@@ -31,7 +31,7 @@ export default function App() {
 
         // Callback executed when the content script sends a response
         (response: ReposMessageResponse) => {
-           setRepoUrls(response.repoUrls);
+          setGitUrls(response.gitUrls);
            setDisabled(response.disabled);
            setLoading(false);
       });
@@ -44,7 +44,7 @@ export default function App() {
   return (
     <ThemeProvider theme={theme}>
       <Box sx={{py: 1.5, display: 'inline-flex', flexDirection: 'column' }}>
-        <Header reposCount={repoUrls.length}/>
+        <Header reposCount={gitUrls.length}/>
         <QueryClientProvider client={queryClient}>
           {/* Show tiles when loading finished, otherwise the nothing found screen */}
         <Box sx={{px: 2}}>
@@ -53,7 +53,7 @@ export default function App() {
             <Loading />
           </Box>
           :
-          <Result githubUrls={repoUrls} disabled={disabled}/> }
+          <Result gitUrls={gitUrls} disabled={disabled}/> }
         </Box>
 
         <ReactQueryDevtools initialIsOpen={false} />

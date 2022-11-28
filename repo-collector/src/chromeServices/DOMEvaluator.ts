@@ -12,7 +12,7 @@ const messagesFromReactAppListener = (
   if (domain === 'github.com') {
     sendResponse({
       disabled: true,
-      gitHosterUrls: [],
+      gitUrls: [],
     });
     return;
   }
@@ -22,7 +22,7 @@ const messagesFromReactAppListener = (
   const hrefArray = nodeArray.map((node) => node.href);
   // filter out only git hrefs
   const gitHosterUrls = hrefArray.filter((href) => {
-    return getGitHoster(href) !== 'No Git Link';
+    return getGitHoster(href) !== 'No Git Hoster';
   });
 
   // filter out only unique links
@@ -30,7 +30,7 @@ const messagesFromReactAppListener = (
 
   sendResponse({
     disabled: false,
-    gitHosterUrls: uniqueRepos,
+    gitUrls: uniqueRepos,
   });
 };
 

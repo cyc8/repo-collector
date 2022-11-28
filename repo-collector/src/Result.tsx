@@ -3,18 +3,18 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 
 interface ResultsProps {
-  githubUrls: string[],
+  gitUrls: string[],
   disabled: boolean,
 }
 
-export default function Result ({githubUrls, disabled}: ResultsProps) {
+export default function Result ({gitUrls, disabled}: ResultsProps) {
   // show relevant text depending if website is github or no repos found
-  let infotext = disabled ? 'Disabled on GitHub' : 'No GitHub links found :(';
+  let infotext = disabled ? 'Disabled on GitHub, GitLab and Bitbucket' : 'No Git links found :(';
 
   return(
     <>
-      {githubUrls.length !== 0 ?
-        <Tiles githubUrls={githubUrls}/>
+      {gitUrls.length !== 0 ?
+        <Tiles gitUrls={gitUrls}/>
         :
         <Box sx={{
           height: '322px',

@@ -13,7 +13,7 @@ const handlePageChange = async (tabId: number, tab: chrome.tabs.Tab, changeInfo?
     { type: 'GET_DOM' } as DOMMessage,
     // Callback executed when the content script sends a response
     (response: ReposMessageResponse) => {
-      updateBadge(tabId, response.repoUrls.length, response.disabled);
+      updateBadge(tabId, response.gitUrls.length, response.disabled);
     }
   );
 };

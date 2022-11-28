@@ -1,3 +1,5 @@
+import { GitHoster } from '../types/global';
+
 // regex git hoster
 const github = /^https:\/\/github\.com\//;
 const gitlab = /^https:\/\/gitlab\.com\//;
@@ -9,7 +11,7 @@ export const removePossibleTrailingSlash = (url: string) => {
   return url;
 };
 
-export const getGitHoster = (href: string) => {
+export const getGitHoster = (href: string): GitHoster => {
   // skip powered by github links
   const gitHosterHomepage = [
     'https://github.com/',
@@ -19,7 +21,7 @@ export const getGitHoster = (href: string) => {
     'https://bitbucket.org/',
     'https://bitbucket.org',
   ];
-  if (gitHosterHomepage.includes(href)) return 'No Git Link';
+  if (gitHosterHomepage.includes(href)) return 'No Git Hoster';
 
   // test all git hoster against regex
   if (github.test(href)) {
@@ -29,6 +31,6 @@ export const getGitHoster = (href: string) => {
   } else if (bitbucket.test(href)) {
     return 'Bitbucket';
   } else {
-    return 'No Git Link';
+    return 'No Git Hoster';
   }
 };
