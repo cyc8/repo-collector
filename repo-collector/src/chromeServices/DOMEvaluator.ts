@@ -1,5 +1,5 @@
 import { DOMMessage, ReposMessageResponse } from '../types';
-import { filterRepoUrls } from '../utils/generalUtils';
+import { getGitHoster } from '../utils/generalUtils';
 
 const messagesFromReactAppListener = (
   msg: DOMMessage,
@@ -12,25 +12,25 @@ const messagesFromReactAppListener = (
   if (domain === 'github.com') {
     sendResponse({
       disabled: true,
-      repoUrls: [],
+      gitHosterUrls: [],
     });
     return;
   }
 
   const nodeArray = Array.from(document.querySelectorAll('a'));
-  // create new array containing only hrefs
+  // create new array containing only hrefs values
   const hrefArray = nodeArray.map((node) => node.href);
-  // filter out only repository hrefs
-  const githubLinks = hrefArray.filter((href) => {
-    return filterRepoUrls(href);
+  // filter out only git hrefs
+  const gitHosterUrls = hrefArray.filter((href) => {
+    return getGitHoster(href) !== 'No Git Link';
   });
 
   // filter out only unique links
-  const uniqueRepos = githubLinks.filter((v, i, a) => a.indexOf(v) === i);
+  const uniqueRepos = gitHosterUrls.filter((v, i, a) => a.indexOf(v) === i);
 
   sendResponse({
     disabled: false,
-    repoUrls: uniqueRepos,
+    gitHosterUrls: uniqueRepos,
   });
 };
 

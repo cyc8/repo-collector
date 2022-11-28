@@ -1,4 +1,4 @@
-import {filterGitHosterUrls} from './generalUtils';
+import { getGitHoster } from './generalUtils';
 
 it('get only repository links', () => {
   const sampleUrls = [
@@ -41,7 +41,7 @@ it('get only repository links', () => {
     "https://gitlab.com/saurabhshah231/reactjs-myapp/-/tree/master/",
   ]
   const actualFilteredLinks = sampleUrls.filter((link) => {
-    return filterGitHosterUrls(link)
+    return getGitHoster(link) !== "No Git Link"
   });
   expect(actualFilteredLinks).toEqual(onlyGitHosterLinks);
 })

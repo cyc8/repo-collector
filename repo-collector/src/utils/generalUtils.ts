@@ -9,7 +9,7 @@ export const removePossibleTrailingSlash = (url: string) => {
   return url;
 };
 
-export const filterGitHosterUrls = (href: string) => {
+export const getGitHoster = (href: string) => {
   // skip powered by github links
   const gitHosterHomepage = [
     'https://github.com/',
@@ -19,13 +19,9 @@ export const filterGitHosterUrls = (href: string) => {
     'https://bitbucket.org/',
     'https://bitbucket.org',
   ];
-  if (gitHosterHomepage.includes(href)) return false;
+  if (gitHosterHomepage.includes(href)) return 'No Git Link';
 
-  // group links
-  return getGitHoster(href) !== 'No Git Hoster';
-};
-
-export const getGitHoster = (href: string) => {
+  // test all git hoster against regex
   if (github.test(href)) {
     return 'GitHub';
   } else if (gitlab.test(href)) {
@@ -33,6 +29,6 @@ export const getGitHoster = (href: string) => {
   } else if (bitbucket.test(href)) {
     return 'Bitbucket';
   } else {
-    return 'No Git Hoster';
+    return 'No Git Link';
   }
 };

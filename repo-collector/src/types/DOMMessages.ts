@@ -4,5 +4,5 @@ export type DOMMessage = {
 
 export type ReposMessageResponse = {
   disabled: boolean;
-  repoUrls: string[];
+  gitHosterUrls: string[];
 };

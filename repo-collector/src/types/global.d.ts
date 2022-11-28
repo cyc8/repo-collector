@@ -14,3 +14,5 @@ export type GithubResponse = {
 } | null;
 
 export type GithubUrlType = 'repo' | 'user' | 'file';
+
+export type GitHoster = 'GitHub' | 'GitLab' | 'Bitbucket';
