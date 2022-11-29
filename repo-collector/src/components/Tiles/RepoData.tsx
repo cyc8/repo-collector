@@ -8,11 +8,11 @@ import { AxiosError } from 'axios';
 interface RepoDataProps {
   error: null | AxiosError<{message: string}>,
   isLoading: boolean,
-  forks?: number,
-  watchers?: number,
-  stars?: number,
-  lastCommit?: string,
-  published?: string
+  forks: number | null,
+  watchers: number | null,
+  stars: number | null,
+  lastCommit: string | null,
+  published: string | null 
 }
 
 export default function RepoData({error, isLoading, forks, watchers, stars, lastCommit, published}: RepoDataProps){

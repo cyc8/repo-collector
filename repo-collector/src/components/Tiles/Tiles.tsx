@@ -110,11 +110,11 @@ export default function Tiles ({gitUrls}: TilesProps) {
             <RepoData 
               error={repoData.error instanceof AxiosError<{message: string}>? repoData.error : null}
               isLoading={isLoading} 
-              forks={data ? data.forks : undefined}
-              watchers={data ? data.subscribers_count : undefined}
-              stars={data ? data.stargazers_count : undefined}
-              lastCommit={data ? data.pushed_at : undefined}
-              published={data ? data.created_at : undefined}
+              forks={data ? data.forks : null}
+              watchers={data ? data.subscribers_count : null}
+              stars={data ? data.stargazers_count : null}
+              lastCommit={data ? data.pushed_at : null}
+              published={data ? data.created_at : null}
             />}
           </TileContainer>
         )
