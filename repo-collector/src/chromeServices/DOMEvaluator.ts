@@ -9,7 +9,7 @@ const messagesFromReactAppListener = (
   // disable when on github
   const urlObject = new URL(window.location.href);
   const domain = urlObject.hostname;
-  if (domain === 'github.com') {
+  if (domain === 'github.com' || domain === 'gitlab.com' || domain === 'bitbucket.org') {
     sendResponse({
       disabled: true,
       gitUrls: [],
