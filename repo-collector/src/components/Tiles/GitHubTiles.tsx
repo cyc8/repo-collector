@@ -35,6 +35,7 @@ export default function GitHubTiles({githubObjects}: GitHubTilesProps) {
   const categorizedRepoUrls = categorizedGithubUrls.filter((url) => url.type === 'repo');
   const categorizedUserUrls = categorizedGithubUrls.filter((url) => url.type === 'user');
   const categorizedFileUrls = categorizedGithubUrls.filter((url) => url.type === 'file');
+  const categorizedIssueUrls = categorizedGithubUrls.filter((url) => url.type === 'issue');
 
   // only request api data for repo urls
   const reposData = useQueries({
@@ -60,7 +61,7 @@ export default function GitHubTiles({githubObjects}: GitHubTilesProps) {
 
   return (
     <>
-    {/* all github repositories  */}
+    {/* github repositories  */}
     {categorizedRepoUrls.length !== 0 && 
       <>
         <Typography component='h2' variant='h5' color='#eaeaea'>Repos</Typography>
@@ -91,7 +92,7 @@ export default function GitHubTiles({githubObjects}: GitHubTilesProps) {
       )
     })}
 
-    {/* all github users */}
+    {/* github users */}
     {categorizedUserUrls.length !== 0 && 
     <>
       <Typography component='h2' variant='h5' color='#eaeaea'>Users</Typography>
@@ -106,13 +107,28 @@ export default function GitHubTiles({githubObjects}: GitHubTilesProps) {
       />)
     })}
 
-    {/* all github files */}
+    {/* github files */}
     {categorizedFileUrls.length !== 0 &&
     <>
       <Typography component='h2' variant='h5' color='#eaeaea'>Files</Typography>
       <Divider sx={{my: 0.5, backgroundColor: '#686868', height: '4px', borderRadius: '2px'}}/>
     </>}
     {categorizedFileUrls.map((githubUrl, index) => {
+      return (<TileContainer 
+        key={index}
+        githubUrlType={githubUrl.type}
+        url={githubUrl.url}
+        gitHoster="GitHub"
+      />)
+    })}
+
+    {/* github issues */}
+    {categorizedIssueUrls.length !== 0 &&
+    <>
+      <Typography component='h2' variant='h5' color='#eaeaea'>Issues</Typography>
+      <Divider sx={{my: 0.5, backgroundColor: '#686868', height: '4px', borderRadius: '2px'}}/>
+    </>}
+    {categorizedIssueUrls.map((githubUrl, index) => {
       return (<TileContainer 
         key={index}
         githubUrlType={githubUrl.type}

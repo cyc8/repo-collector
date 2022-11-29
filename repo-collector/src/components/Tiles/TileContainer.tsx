@@ -6,9 +6,10 @@ import Link from '@mui/material/Link';
 import Tooltip from "@mui/material/Tooltip";
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import { extractDocumentName, extractRepoOwner, githubDomain } from '../../utils/githubUtils';
-import repo from '../../assets/repo.svg';
+import repoIcon from '../../assets/repoIcon.svg';
 import fileIcon from '../../assets/fileIcon.svg';
 import userIcon from '../../assets/userIcon.svg';
+import issueIcon from '../../assets/issueIcon.svg'
 import githubLogo from '../../assets/github-logo-128x128.png';
 import bitbucketLogo from '../../assets/bitbucket-logo-128x128.png';
 import gitlabLogo from '../../assets/gitlab-logo-128x128.png';
@@ -74,9 +75,10 @@ export default function TileContainer ({ children, url, githubUrlType, gitHoster
 
       <Box sx={{width: 350}}>
         <Box sx={{display: 'flex', alignItems: 'center', pb: 1}}>
-        {githubUrlType === 'repo' && <img src={repo} height='20px' width='20px' alt='repository icon' />}
+        {githubUrlType === 'repo' && <img src={repoIcon} height='20px' width='20px' alt='repository icon' />}
         {githubUrlType === 'user' && <img src={userIcon} height='24px' width='24px' alt='user icon' />}
         {githubUrlType === 'file' && <img src={fileIcon} height='24px' width='24px' alt='file icon' />}
+        {githubUrlType === 'issue' && <img src={issueIcon} height='24px' width='24px' alt='file icon' />}
 
         {/* use file icon for GitLab and Bitbucket */}
         { (gitHoster === 'Bitbucket' || gitHoster === 'GitLab') && <img src={fileIcon} height='24px' width='24px' alt='file icon' />}
@@ -86,8 +88,8 @@ export default function TileContainer ({ children, url, githubUrlType, gitHoster
               {documentName}
             </Link>
 
-            {/* display user info when it's a github repo or file */}
-            { (githubUrlType === 'repo' || githubUrlType === 'file') &&
+            {/* display user info when it's a github repo, file or issue */}
+            { (githubUrlType !== 'user') &&
               <Typography component='span'>by <Link href={githubDomain + extractRepoOwner(url)} target='_blank' rel="noreferrer" underline='always' color="inherit">{extractRepoOwner(url)}</Link>
               </Typography>
             }

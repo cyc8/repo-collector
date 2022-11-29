@@ -13,6 +13,6 @@ export type GithubResponse = {
   };
 } | null;
 
-export type GithubUrlType = 'repo' | 'user' | 'file';
+export type GithubUrlType = 'repo' | 'user' | 'file' | 'issue';
 
 export type GitHoster = 'GitHub' | 'GitLab' | 'Bitbucket' | 'No Git Hoster';

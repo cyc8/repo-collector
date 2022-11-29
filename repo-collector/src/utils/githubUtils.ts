@@ -9,6 +9,10 @@ export const categorizeLink = (url: string): GithubUrlType => {
   urlPath = urlPath.replace(githubDomain, '');
   const pathDirs = urlPath.split('/');
 
+  if (pathDirs.length >= 3 && pathDirs[2] === 'issues') {
+    return 'issue';
+  }
+
   switch (pathDirs.length) {
     case 1:
       return 'user';
@@ -32,6 +36,8 @@ export const extractDocumentName = (url: string) => {
       return pathDirs[1];
     case 'file':
       return pathDirs[pathDirs.length - 1];
+    case 'issue':
+      return 'Issue No: ' + pathDirs[3];
   }
 };
 
