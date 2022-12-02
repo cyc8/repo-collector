@@ -1,5 +1,5 @@
 import { DOMMessage, ReposMessageResponse } from '../types';
-import { getGitHoster } from '../utils/generalUtils';
+import { includeUrl } from '../utils/generalUtils';
 
 const messagesFromReactAppListener = (
   msg: DOMMessage,
@@ -22,7 +22,7 @@ const messagesFromReactAppListener = (
   const hrefArray = nodeArray.map((node) => node.href);
   // filter out only git hrefs
   const gitHosterUrls = hrefArray.filter((href) => {
-    return getGitHoster(href) !== 'No Git Hoster';
+    return includeUrl(href);
   });
 
   // filter out only unique links

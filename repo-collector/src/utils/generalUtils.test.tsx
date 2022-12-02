@@ -1,4 +1,4 @@
-import { getGitHoster } from './generalUtils';
+import { getGitHoster, includeUrl } from './generalUtils';
 
 it('get only repository links', () => {
   const sampleUrls = [
@@ -26,12 +26,7 @@ it('get only repository links', () => {
     "https://opensource.facebook.com/legal/privacy/",
     "https://opensource.facebook.com/legal/terms/",
     "https://opensource.facebook.com/",
-    "https://github.com/",
-    "https://github.com",
     "https://gitlab.com/saurabhshah231/reactjs-myapp/-/tree/master/",
-    "https://gitlab.com/",
-    "https://gitlab.com",
-    "https://bitbucket.org"
   ]
 
   const onlyGitHosterLinks = [
@@ -44,4 +39,19 @@ it('get only repository links', () => {
     return getGitHoster(link) !== "No Git Hoster"
   });
   expect(actualFilteredLinks).toEqual(onlyGitHosterLinks);
+})
+
+it('exclude sponsor link', () => {
+  const exampleUrls = [
+    'https://github.com/sponsors/yyx990803',
+    'https://github.com/facebook/jest',
+    'https://bitbucket.org/',
+    'https://bitbucket.org/',
+  ]
+
+  const expectedResult = ['https://github.com/facebook/jest'];
+
+  const acualResult = exampleUrls.filter((url) => includeUrl(url));
+
+  expect(acualResult).toEqual(expectedResult);
 })
