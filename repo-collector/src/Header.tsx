@@ -1,6 +1,9 @@
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import avatar from './assets/repo-collector-avatar.png';
+import Button from '@mui/material/Button';
+import OpenInNewIcon from '@mui/icons-material/OpenInNew';
+import GitHubLogin from './GitHubLogin';
 
 interface HeaderProps {
   reposCount: number
@@ -30,6 +33,7 @@ export default function Headers ({reposCount}:HeaderProps) {
         }}>
           Repo Collector
         </Typography>
+        <GitHubLogin />
       </Box>
 
       { reposCount !== 0 &&
