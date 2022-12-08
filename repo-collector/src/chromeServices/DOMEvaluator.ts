@@ -1,5 +1,5 @@
 import { DOMMessage, ReposMessageResponse } from '../types';
-import { includeUrl } from '../utils/generalUtils';
+import { includeUrl, removeOnpageRef } from '../utils/generalUtils';
 
 const messagesFromReactAppListener = (
   msg: DOMMessage,
@@ -19,10 +19,19 @@ const messagesFromReactAppListener = (
 
   const nodeArray = Array.from(document.querySelectorAll('a'));
   // create new array containing only hrefs values
-  const hrefArray = nodeArray.map((node) => node.href);
+  const hrefArray = nodeArray.map((node) => {
+    return removeOnpageRef(node.href);
+  });
   // filter out only git hrefs
-  const gitHosterUrls = hrefArray.filter((href) => {
+  let gitHosterUrls = hrefArray.filter((href) => {
     return includeUrl(href);
+  });
+
+  // remove onpage links (part after hashtag)
+  gitHosterUrls = gitHosterUrls.map((gitHosterUrl) => {
+    const hashIndex = gitHosterUrl.indexOf('#');
+    if (hashIndex !== -1) return gitHosterUrl.slice(0, hashIndex);
+    return gitHosterUrl;
   });
 
   // filter out only unique links

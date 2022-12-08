@@ -1,4 +1,4 @@
-import { getGitHoster, includeUrl } from './generalUtils';
+import { getGitHoster, includeUrl, removeOnpageRef } from './generalUtils';
 
 it('get only repository links', () => {
   const sampleUrls = [
@@ -54,4 +54,20 @@ it('exclude sponsor link', () => {
   const acualResult = exampleUrls.filter((url) => includeUrl(url));
 
   expect(acualResult).toEqual(expectedResult);
+})
+
+it('remove onpage reference', () => {
+  const exampleUrls = [
+    'https://github.com/jsdom/jsdom#customizing-jsdom#asdfasdf',
+    'https://github.com/jsdom/jsdom#customizing-jsdom#asdfasdf#38dhj#',
+  ]
+
+  const expectedResult =[
+    'https://github.com/jsdom/jsdom',
+    'https://github.com/jsdom/jsdom',
+  ]
+
+  const actualCleanedUrls = exampleUrls.map((url) => removeOnpageRef(url))
+
+  expect(actualCleanedUrls).toEqual(expectedResult);
 })

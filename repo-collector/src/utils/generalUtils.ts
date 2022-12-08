@@ -4,7 +4,6 @@ import { GitHoster } from '../types/global';
 const github = /^https:\/\/github\.com\//;
 const gitlab = /^https:\/\/gitlab\.com\//;
 const bitbucket = /^https:\/\/bitbucket\.org\//;
-const sponsorLink = 'https://github.com/sponsors/yyx990803';
 
 export const removePossibleTrailingSlash = (url: string) => {
   // checks if last character is a slash and removes it if so
@@ -25,8 +24,9 @@ export const getGitHoster = (href: string): GitHoster => {
   }
 };
 
+// function to return i
 export const includeUrl = (href: string) => {
-  // excöide powered by github links
+  // exclude powered by github links
   const gitHosterHomepage = [
     'https://github.com/',
     'https://github.com',
@@ -47,4 +47,12 @@ export const includeUrl = (href: string) => {
   } else {
     return true;
   }
+};
+
+// remove onpage reference of urls if exists
+export const removeOnpageRef = (href: string) => {
+  const hashIndex = href.indexOf('#');
+  let cleanUrl = '';
+  hashIndex !== -1 ? (cleanUrl = href.slice(0, hashIndex)) : (cleanUrl = href);
+  return cleanUrl;
 };
