@@ -1,3 +1,4 @@
+import { GITHUB_OAUTH } from '../env';
 import { removePossibleTrailingSlash } from './generalUtils';
 import { GithubUrlType } from '../types';
 
@@ -58,4 +59,19 @@ export const createRepoApiEndpoint = (url: string) => {
   apiEndpoint = apiEndpoint.replace(githubDomain, '');
   apiEndpoint = `${githubApiDomain}repos/${apiEndpoint}`;
   return apiEndpoint;
+};
+
+export const GitHubToken = {
+  setOAuth(code: string) {
+    // TODO
+    //return API.OAuth(code);
+  },
+  getOAuthLink() {
+    const params = new URLSearchParams({
+      client_id: GITHUB_OAUTH.clientId,
+      scope: 'repo',
+      redirect_uri: window.location.href,
+    });
+    return `https://github.com/login/oauth/authorize?${params}`;
+  },
 };
