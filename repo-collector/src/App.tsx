@@ -35,9 +35,6 @@ export default function App() {
            setDisabled(response.disabled);
            setLoading(false);
       });
-      if (chrome.runtime.lastError) {
-        console.log('getActiveTab', chrome.runtime.lastError.message);
-      }
     });
   }, [])
 
