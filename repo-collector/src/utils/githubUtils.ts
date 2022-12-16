@@ -66,12 +66,15 @@ export const GitHubToken = {
     // TODO
     //return API.OAuth(code);
   },
+  // scope: notifaction to watch a repo and public repo for starring, %20 is space to use multiple scopes
   getOAuthLink() {
     const params = new URLSearchParams({
       client_id: GITHUB_OAUTH.clientId,
-      scope: 'repo',
-      redirect_uri: window.location.href,
+      scope: 'notifications%20public_repo',
     });
+    console.log(GITHUB_OAUTH.clientId);
     return `https://github.com/login/oauth/authorize?${params}`;
   },
+
+  checkScope() {},
 };
