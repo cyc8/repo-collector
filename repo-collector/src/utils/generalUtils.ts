@@ -56,3 +56,7 @@ export const removeOnpageRef = (href: string) => {
   hashIndex !== -1 ? (cleanUrl = href.slice(0, hashIndex)) : (cleanUrl = href);
   return cleanUrl;
 };
+
+export const parseURLSearch = (search = window.location.search) => {
+  return new URLSearchParams(search);
+};
