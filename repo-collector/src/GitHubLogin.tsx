@@ -4,6 +4,7 @@ import axios, {AxiosError} from 'axios';
 import Button from '@mui/material/Button';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import { GitHubToken } from './utils/githubUtils';
+import { parseURLSearch } from './utils/generalUtils';
 
 export default function GitHubLogin(){
   const [githubToken, setGithubToken] = useState('');
@@ -12,7 +13,9 @@ export default function GitHubLogin(){
   const redirect_uri = 'chrome-extension://hkkaekdbljlnbedcammdgckgckcnkcol/index.html';
   const state = (Math.random() + 1).toString(36).substring(2);
 
-
+  const code = parseURLSearch().get('code');
+  if(!githubToken && code)
+  GitHubToken.setOAuth(code);
   // const handleButtonClick = () => {
   //   refetch();
   // }
