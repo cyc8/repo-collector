@@ -1,16 +1,20 @@
 import { DOMMessage, ReposMessageResponse } from '../types';
-import { includeUrl, removeOnpageRef } from '../utils/generalUtils';
+import { includeUrl, removeOnpageRef, removeTrailingSlash } from '../utils/generalUtils';
+
+// disable when on git hoster platforms
+const onGitHosterPage = () => {
+  const urlObject = new URL(window.location.href);
+  const currentDomain = urlObject.hostname;
+  const disabledDomains = ['github.com', 'docs.github.com', 'gitlab.com', 'bitbucket.org'];
+  return disabledDomains.includes(currentDomain);
+};
 
 const messagesFromReactAppListener = (
   msg: DOMMessage,
   sender: chrome.runtime.MessageSender,
   sendResponse: (response: ReposMessageResponse) => void
 ) => {
-  // disable when on github
-  const urlObject = new URL(window.location.href);
-  const currentDomain = urlObject.hostname;
-  const disabledDomains = ['github.com', 'docs.github.com', 'gitlab.com', 'bitbucket.org'];
-  if (disabledDomains.includes(currentDomain)) {
+  if (onGitHosterPage()) {
     sendResponse({
       disabled: true,
       gitUrls: [],
@@ -18,21 +22,22 @@ const messagesFromReactAppListener = (
     return;
   }
 
+  // create new array containing only hrefs
   const nodeArray = Array.from(document.querySelectorAll('a'));
-  // create new array containing only hrefs values
   const hrefArray = nodeArray.map((node) => {
-    return removeOnpageRef(node.href);
+    return node.href;
   });
+
   // filter out only git hrefs
   let gitHosterUrls = hrefArray.filter((href) => {
     return includeUrl(href);
   });
 
-  // remove onpage links (part after hashtag)
+  // clean url - remove onpage ref or trailing slash
   gitHosterUrls = gitHosterUrls.map((gitHosterUrl) => {
-    const hashIndex = gitHosterUrl.indexOf('#');
-    if (hashIndex !== -1) return gitHosterUrl.slice(0, hashIndex);
-    return gitHosterUrl;
+    let cleanedUrl = removeOnpageRef(gitHosterUrl);
+    cleanedUrl = removeTrailingSlash(gitHosterUrl);
+    return cleanedUrl;
   });
 
   // filter out only unique links

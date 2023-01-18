@@ -57,6 +57,7 @@ export default function GitHubTiles({githubObjects}: GitHubTilesProps) {
     })
   })
 
+  // check if some repo data still needs to be fetched
   const isLoading = reposData.some((repoData) => { return repoData.isLoading });
 
   return (

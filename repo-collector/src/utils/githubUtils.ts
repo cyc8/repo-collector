@@ -1,12 +1,12 @@
 import { GITHUB_OAUTH } from '../env';
-import { removePossibleTrailingSlash } from './generalUtils';
+import { removeTrailingSlash } from './generalUtils';
 import { GithubUrlType } from '../types';
 
 export const githubDomain = 'https://github.com/';
 export const githubApiDomain = 'https://api.github.com/';
 
 export const categorizeLink = (url: string): GithubUrlType => {
-  let urlPath = removePossibleTrailingSlash(url);
+  let urlPath = removeTrailingSlash(url);
   urlPath = urlPath.replace(githubDomain, '');
   const pathDirs = urlPath.split('/');
 
@@ -26,7 +26,7 @@ export const categorizeLink = (url: string): GithubUrlType => {
 
 export const extractDocumentName = (url: string) => {
   const type = categorizeLink(url);
-  let urlPath = removePossibleTrailingSlash(url);
+  let urlPath = removeTrailingSlash(url);
   urlPath = urlPath.replace(githubDomain, '');
   const pathDirs = urlPath.split('/');
 
@@ -55,7 +55,7 @@ export const createRepoEndpoint = (apiUrl: string) => {
 };
 
 export const createRepoApiEndpoint = (url: string) => {
-  let apiEndpoint = removePossibleTrailingSlash(url);
+  let apiEndpoint = removeTrailingSlash(url);
   apiEndpoint = apiEndpoint.replace(githubDomain, '');
   apiEndpoint = `${githubApiDomain}repos/${apiEndpoint}`;
   return apiEndpoint;
