@@ -3,19 +3,31 @@ import Typography from '@mui/material/Typography';
 import { ErrorInfo } from '../ErrorInfo/ErrorInfo';
 import { RepoStatistics } from '../RepoStatistics/RepoStatistics';
 import Loading from '../Loading/Loading';
-import { AxiosError } from 'axios';
+import axios, {AxiosError} from 'axios';
+import { useQuery } from "@tanstack/react-query";
 
 interface RepoDataProps {
-  error: null | AxiosError<{message: string}>,
-  isLoading: boolean,
-  forks: number | null,
-  watchers: number | null,
-  stars: number | null,
-  lastCommit: string | null,
-  published: string | null 
+  apiUrl: string
 }
 
-export default function RepoData({error, isLoading, forks, watchers, stars, lastCommit, published}: RepoDataProps){
+const useGithubData = (apiUrl: string) => {
+  // request api data for repo urls
+  return useQuery({
+    queryKey: [apiUrl],
+    queryFn: async() => {
+      const { data } = await axios.get(apiUrl);
+      return data;
+    },
+    // staleTime: tells you how fresh you data is, staleTime: Infinity --> marks that the data never get stale/old
+    staleTime: Infinity,
+    retry: false,
+  })
+}
+
+export default function RepoData({apiUrl}: RepoDataProps){
+  // request api data for repo urls
+  const { isLoading, data, error} =  useGithubData(apiUrl);
+  
   return(
     <>
       <Box sx={{my: 1}}>
@@ -26,18 +38,17 @@ export default function RepoData({error, isLoading, forks, watchers, stars, last
         <Typography component='span' color='primary'>Requesting info...</Typography>
       </Box>}
 
-      {// additional repo info from github api
-        stars && forks && watchers && lastCommit && published &&
+      { data &&
         <RepoStatistics 
-          stars={stars}
-          forks={forks}
-          watchers={watchers}
-          lastCommit={lastCommit}
-          published={published}
+          stars={data.stargazers_count}
+          forks={data.forks}
+          watchers={data.subscribers_count}
+          lastCommit={data.pushed_at}
+          published={data.created_at}
         />}
 
       {// show error message when error
-      error && !isLoading && <ErrorInfo error={error}/>}
+      error instanceof AxiosError<{message: string}>? <ErrorInfo error={error} />: null}
       </Box>
     </>
   )
