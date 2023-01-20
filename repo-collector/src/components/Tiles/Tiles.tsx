@@ -20,13 +20,13 @@ export default function Tiles ({gitUrls}: TilesProps) {
   let gitlabTiles = null;
   let bitbucketTiles = null;
   if(gitlabObjects.length > 0){
-    gitlabTiles = gitlabObjects.map((gitlabObject) => { 
-      return <TileContainer url={gitlabObject.gitUrl} gitHoster={gitlabObject.gitHoster}/>
+    gitlabTiles = gitlabObjects.map(({gitUrl, gitHoster}) => { 
+      return <TileContainer key={gitUrl} url={gitUrl} gitHoster={gitHoster}/>
      })
   }
   if(bitbucketObjects.length > 0){
-    bitbucketTiles = bitbucketObjects.map((bitbucketObject) => { 
-      return <TileContainer url={bitbucketObject.gitUrl} gitHoster={bitbucketObject.gitHoster}/>
+    bitbucketTiles = bitbucketObjects.map(({gitUrl, gitHoster}) => { 
+      return <TileContainer key={gitUrl} url={gitUrl} gitHoster={gitHoster}/>
      })
   }
 
