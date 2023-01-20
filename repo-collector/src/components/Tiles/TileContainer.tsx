@@ -10,9 +10,9 @@ import repoIcon from '../../assets/repoIcon.svg';
 import fileIcon from '../../assets/fileIcon.svg';
 import userIcon from '../../assets/userIcon.svg';
 import issueIcon from '../../assets/issueIcon.svg'
-import githubLogo from '../../assets/github-logo-128x128.png';
-import bitbucketLogo from '../../assets/bitbucket-logo-128x128.png';
-import gitlabLogo from '../../assets/gitlab-logo-128x128.png';
+import githubIcon from '../../assets/github-icon-128x128.png';
+import bitbucketIcon from '../../assets/bitbucket-icon-128x128.png';
+import gitlabIcon from '../../assets/gitlab-icon-128x128.png';
 import { GithubUrlType, GitHoster } from '../../types';
 
 interface TileContainerProps {
@@ -21,9 +21,10 @@ interface TileContainerProps {
   githubUrlType?: GithubUrlType;
   gitHoster: GitHoster;
 }
+
 export default function TileContainer ({ children, url, githubUrlType, gitHoster }: TileContainerProps) {
 
-  const handleLongNames = () => {
+  const manageLongNames = () => {
     // if git hoster is gitlab or bitbucket simply return url without https://
     // if git hoster is github, extract name from url location
     let documentName = url;
@@ -48,8 +49,29 @@ export default function TileContainer ({ children, url, githubUrlType, gitHoster
     }
     return isTooLong ? documentNameTooltip : documentNameElem ;
   }
+  const documentName = manageLongNames();
 
-  const documentName = handleLongNames();
+  // choose corresponding icons, bitbucket and gitlab use fileicon
+  let gitHosterIcon = null;
+  let itemIcon = null;
+  if(gitHoster === 'GitHub') {
+    gitHosterIcon = githubIcon
+    if (githubUrlType === 'repo'){
+      itemIcon = repoIcon;
+    } else if (githubUrlType === 'user') {
+      itemIcon = userIcon;
+    } else if (githubUrlType === 'file') {
+      itemIcon = fileIcon;
+    } else {
+      itemIcon = issueIcon;
+    }
+  } else if (gitHoster === 'GitLab') {
+    gitHosterIcon = gitlabIcon
+    itemIcon = fileIcon;
+  } else {
+    gitHosterIcon = bitbucketIcon
+    itemIcon = fileIcon;
+  }
 
   return (
     <Paper
@@ -68,28 +90,20 @@ export default function TileContainer ({ children, url, githubUrlType, gitHoster
         mr: 1,
         borderRight: '1px solid #b1b1b1'
       }}>
-        {gitHoster === 'GitHub' && <img src={githubLogo} height='50px' width='50px' alt='GitHub logo'/>}
-        {gitHoster === 'GitLab' && <img src={gitlabLogo} height='50px' width='50px' alt='GitLab logo'/>}
-        {gitHoster === 'Bitbucket' && <img src={bitbucketLogo} height='50px' width='50px' alt='Bitbucket logo'/>}
+        <img src={gitHosterIcon} height='50px' width='50px' alt={`${gitHoster} logo`}/>
       </Box>
 
       <Box sx={{width: 350}}>
         <Box sx={{display: 'flex', alignItems: 'center', pb: 1}}>
-        {githubUrlType === 'repo' && <img src={repoIcon} height='20px' width='20px' alt='repository icon' />}
-        {githubUrlType === 'user' && <img src={userIcon} height='24px' width='24px' alt='user icon' />}
-        {githubUrlType === 'file' && <img src={fileIcon} height='24px' width='24px' alt='file icon' />}
-        {githubUrlType === 'issue' && <img src={issueIcon} height='24px' width='24px' alt='file icon' />}
-
-        {/* use file icon for GitLab and Bitbucket */}
-        { (gitHoster === 'Bitbucket' || gitHoster === 'GitLab') && <img src={fileIcon} height='24px' width='24px' alt='file icon' />}
+          <img src={itemIcon} height='24px' width='24px' alt='item icon' />
           <Box sx={{pl: 1}}>
-              
+        
             <Link href={url} target='_blank' rel="noreferrer" underline='hover' color="inherit">
               {documentName}
             </Link>
 
             {/* display user info when it's a github repo, file or issue */}
-            { (githubUrlType !== 'user') &&
+            { (githubUrlType !== 'user' && gitHoster === 'GitHub') &&
               <Typography component='span'>by <Link href={githubDomain + extractRepoOwner(url)} target='_blank' rel="noreferrer" underline='always' color="inherit">{extractRepoOwner(url)}</Link>
               </Typography>
             }
@@ -100,9 +114,7 @@ export default function TileContainer ({ children, url, githubUrlType, gitHoster
         {githubUrlType === 'repo' && children }
 
         <Button href={url} target='_blank' rel="noreferrer" size='small' variant='contained' endIcon={<OpenInNewIcon />}>
-          {gitHoster === 'GitHub' && <>View on GitHub</>}
-          {gitHoster === 'GitLab' && <>View on GitLab</>}
-          {gitHoster === 'Bitbucket' && <>View on Bitbucket</>}
+          <>View on {gitHoster}</>
         </Button>
       </Box>
     </Paper>
