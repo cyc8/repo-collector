@@ -65,11 +65,11 @@ export default function GitHubTiles({githubObjects}: GitHubTilesProps) {
       <Typography component='h2' variant='h5' color='#eaeaea'>Users</Typography>
       <Divider sx={{my: 0.5, backgroundColor: '#686868', height: '4px', borderRadius: '2px'}}/>
     </>}
-    {categorizedUserUrls.map((githubUrl, index) => {
+    {categorizedUserUrls.map(({url, type}) => {
       return (<TileContainer
-        key={index}
-        githubUrlType={githubUrl.type}
-        url={githubUrl.url}
+        key={url}
+        githubUrlType={type}
+        url={url}
         gitHoster="GitHub"
       />)
     })}
@@ -80,11 +80,11 @@ export default function GitHubTiles({githubObjects}: GitHubTilesProps) {
       <Typography component='h2' variant='h5' color='#eaeaea'>Files</Typography>
       <Divider sx={{my: 0.5, backgroundColor: '#686868', height: '4px', borderRadius: '2px'}}/>
     </>}
-    {categorizedFileUrls.map((githubUrl, index) => {
+    {categorizedFileUrls.map(({url, type}) => {
       return (<TileContainer 
-        key={index}
-        githubUrlType={githubUrl.type}
-        url={githubUrl.url}
+        key={url}
+        githubUrlType={type}
+        url={url}
         gitHoster="GitHub"
       />)
     })}
@@ -95,11 +95,11 @@ export default function GitHubTiles({githubObjects}: GitHubTilesProps) {
       <Typography component='h2' variant='h5' color='#eaeaea'>Issues</Typography>
       <Divider sx={{my: 0.5, backgroundColor: '#686868', height: '4px', borderRadius: '2px'}}/>
     </>}
-    {categorizedIssueUrls.map((githubUrl, index) => {
+    {categorizedIssueUrls.map(({url, type}) => {
       return (<TileContainer 
-        key={index}
-        githubUrlType={githubUrl.type}
-        url={githubUrl.url}
+        key={url}
+        githubUrlType={type}
+        url={url}
         gitHoster="GitHub"
       />)
     })}
