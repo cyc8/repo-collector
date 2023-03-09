@@ -1,11 +1,22 @@
-name: Codecov Upload Results
+name: Upload Test Results To Codecov
 on: [push, pull_request]
 jobs:
-  Explore-GitHub-Actions:
+  create-test-coverage:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@master
-      - uses: codecov/codecov-action@v3
+      - name: access repo
+        uses: actions/checkout@master
+
+      - name: use node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '19.5.0'
+
+      - name: create coverage
+        run: npm test -- --coverage .
+
+      - name: upload to codecov
+        uses: codecov/codecov-action@v3
         with:
           token: ${{ secrets.CODECOV_TOKEN }} # not required for public repos
           directory: ./repo-collector/coverage
