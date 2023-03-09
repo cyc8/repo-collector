@@ -2,14 +2,14 @@ name: Upload Test Results To Codecov
 on:
   pull_request:
   push:
-    # branches:
-    #   - master
+    branches:
+       - master
 jobs:
   create-test-coverage:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: repo-collector
+        working-directory: repo-collector # set working directory within repo
     steps:
       - name: access repo
         uses: actions/checkout@master
@@ -28,10 +28,9 @@ jobs:
       - name: upload to codecov
         uses: codecov/codecov-action@v3
         with:
-          token: ${{ secrets.CODECOV_TOKEN }} # not required for public repos
+          token: ${{ secrets.CODECOV_TOKEN }}
           directory: ./repo-collector/coverage
-          # files: ./coverage1.xml,./coverage2.xml # optional
-          flags: unittests # optional
-          name: codecov-umbrella # optional
-          fail_ci_if_error: true # optional (default = false)
-          verbose: true # optional (default = false)
+          flags: unittests
+          name: codecov-umbrella
+          fail_ci_if_error: true
+          verbose: true

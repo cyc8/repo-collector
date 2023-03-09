@@ -1,3 +1,5 @@
+[![codecov](https://codecov.io/gh/cyc8/repo-collector/branch/master/graph/badge.svg?token=JLvyLvtMYq)](https://codecov.io/gh/cyc8/repo-collector)
+
 # install in chrome / chromium
 
 1. Install Dependencies: `npm install`
