@@ -7,19 +7,17 @@ on:
 jobs:
   create-test-coverage:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: repo-collector
     steps:
       - name: access repo
         uses: actions/checkout@master
-
-      - name: List files in the repository
-        run: |
-          ls ${{ github.workspace }}
 
       - name: set up node.js
         uses: actions/setup-node@v3
         with:
           node-version: '19.5.0'
-          working-directory: ./repo-collector # react project is located within this directory, important for npm install and test
 
       - name: install dependencies
         run: npm install
