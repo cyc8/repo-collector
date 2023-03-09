@@ -1,5 +1,9 @@
 name: Upload Test Results To Codecov
-on: [push, pull_request]
+on:
+  pull_request:
+  push:
+    # branches:
+    #   - master
 jobs:
   create-test-coverage:
     runs-on: ubuntu-latest
@@ -7,10 +11,14 @@ jobs:
       - name: access repo
         uses: actions/checkout@master
 
-      - name: use node.js
+      - name: set up node.js
         uses: actions/setup-node@v3
         with:
           node-version: '19.5.0'
+          working-directory: ./repo-collector # react project is located within this directory, important for npm install and test
+
+      - name: install dependencies
+        run: npm install
 
       - name: create coverage
         run: npm test -- --coverage .
