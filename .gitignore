@@ -12,6 +12,7 @@ __pycache
 examples
 repo-collector.ai
 build.zip
+media/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
