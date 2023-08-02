@@ -1,6 +1,6 @@
 [![codecov](https://codecov.io/gh/cyc8/repo-collector/branch/master/graph/badge.svg?token=JLvyLvtMYq)](https://codecov.io/gh/cyc8/repo-collector)
 
-# Repo Collector
+# Repo Collector (Chrome Extension)
 Install through chrome webstore: [Repo Collector](https://chrome.google.com/webstore/detail/repo-collector/hkkaekdbljlnbedcammdgckgckcnkcol/)
 
 ## install manually in chrome/chromium
